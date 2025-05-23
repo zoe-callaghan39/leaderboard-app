@@ -22,7 +22,8 @@ const PORT = process.env.PORT || 4000;
 pool.query(`
   CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+    removed BOOLEAN DEFAULT FALSE
   );
   CREATE TABLE IF NOT EXISTS scores (
     id SERIAL PRIMARY KEY,
@@ -32,6 +33,35 @@ pool.query(`
     month TEXT
   );
 `);
+
+// GET: All active users
+app.get("/users", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT name FROM users WHERE removed = FALSE ORDER BY name ASC"
+    );
+    res.json(result.rows.map((row) => ({ name: row.name }))); // ✅ fix here
+  } catch (err) {
+    console.error("Error fetching users:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// POST: Soft-remove a user
+app.post("/users/remove", async (req, res) => {
+  const { name } = req.body;
+  if (!name) return res.status(400).json({ error: "Name is required." });
+
+  try {
+    await pool.query("UPDATE users SET removed = TRUE WHERE name = $1", [name]);
+    res.json({
+      message: `${name} has been removed from upcoming leaderboards.`,
+    });
+  } catch (err) {
+    console.error("Error removing user:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 // POST: Add live points
 app.post("/add-points", async (req, res) => {
@@ -127,7 +157,7 @@ app.get("/leaderboard/current", async (req, res) => {
       `
         SELECT users.name, SUM(scores.points) AS total_points
         FROM scores
-        JOIN users ON scores.user_id = users.id
+        JOIN users ON scores.user_id = users.id AND users.removed = FALSE
         WHERE scores.month = $1
         GROUP BY users.name
         ORDER BY total_points DESC;
@@ -150,7 +180,7 @@ app.get("/leaderboard/all-time", async (req, res) => {
     const result = await pool.query(`
       SELECT users.name, SUM(scores.points) AS total_points
       FROM scores
-      JOIN users ON scores.user_id = users.id
+      JOIN users ON scores.user_id = users.id AND users.removed = FALSE
       GROUP BY users.name
       ORDER BY total_points DESC;
     `);
@@ -171,7 +201,7 @@ app.get("/leaderboard/:month", async (req, res) => {
       `
         SELECT users.name, SUM(scores.points) AS total_points
         FROM scores
-        JOIN users ON scores.user_id = users.id
+        JOIN users ON scores.user_id = users.id AND users.removed = FALSE
         WHERE scores.month = $1
         GROUP BY users.name
         ORDER BY total_points DESC;

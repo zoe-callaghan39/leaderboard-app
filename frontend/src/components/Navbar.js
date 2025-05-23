@@ -1,19 +1,21 @@
+import React from "react";
 import { Link } from "react-router-dom";
 
-export default function Navbar() {
+function Navbar() {
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link to="/">Current</Link>
-        </li>
-        <li>
-          <Link to="/all-time">All-Time</Link>
-        </li>
-        <li>
-          <Link to="/historic/2025-04">April 2025</Link>
-        </li>
-      </ul>
+    <nav style={{ padding: "1rem", backgroundColor: "#f0f0f0" }}>
+      <Link to="/" style={{ marginRight: "1rem" }}>
+        Current Leaderboard
+      </Link>
+      <Link to="/all-time" style={{ marginRight: "1rem" }}>
+        All-Time Leaderboard
+      </Link>
+      <Link to="/historic/2025-04" style={{ marginRight: "1rem" }}>
+        Historic Leaderboard
+      </Link>
+      <Link to="/manage-scores">Manage Scores</Link>
     </nav>
   );
 }
+
+export default Navbar;
