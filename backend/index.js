@@ -1,26 +1,43 @@
 const express = require("express");
 const cors = require("cors");
-const { PrismaClient } = require("@prisma/client");
-require("dotenv").config();
+const dotenv = require("dotenv");
+const { Pool } = require("pg");
+
+dotenv.config();
 
 const app = express();
-const prisma = new PrismaClient();
-const PORT = process.env.PORT || 4000;
-
 app.use(cors());
 app.use(express.json());
 
-/**
- * POST /add-points
- * Body: { name: "Zoe", points: 5 }
- */
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});
+
+const PORT = process.env.PORT || 4000;
+
+// CREATE TABLES IF NOT EXISTS
+pool.query(`
+  CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL
+  );
+  CREATE TABLE IF NOT EXISTS scores (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    points INTEGER,
+    date TIMESTAMP,
+    month TEXT
+  );
+`);
+
 app.post("/add-points", async (req, res) => {
   const { name, points } = req.body;
 
   if (!name || typeof points !== "number") {
-    return res
-      .status(400)
-      .json({ error: "Invalid request. Provide name and numeric points." });
+    return res.status(400).json({ error: "Name and numeric points required." });
   }
 
   const now = new Date();
@@ -30,32 +47,33 @@ app.post("/add-points", async (req, res) => {
   )}`;
 
   try {
-    let user = await prisma.user.findFirst({ where: { name } });
+    let result = await pool.query("SELECT * FROM users WHERE name = $1", [
+      name,
+    ]);
 
-    if (!user) {
-      user = await prisma.user.create({ data: { name } });
+    let userId;
+    if (result.rows.length === 0) {
+      const insertUser = await pool.query(
+        "INSERT INTO users(name) VALUES($1) RETURNING id",
+        [name]
+      );
+      userId = insertUser.rows[0].id;
+    } else {
+      userId = result.rows[0].id;
     }
 
-    await prisma.score.create({
-      data: {
-        userId: user.id,
-        points,
-        date: now,
-        month,
-      },
-    });
+    await pool.query(
+      "INSERT INTO scores(user_id, points, date, month) VALUES($1, $2, $3, $4)",
+      [userId, points, now, month]
+    );
 
     res.json({ message: `Added ${points} points to ${name}` });
-  } catch (error) {
-    console.error("Error adding points:", error);
+  } catch (err) {
+    console.error("Error:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
-/**
- * GET /leaderboard/current
- * Returns current month leaderboard
- */
 app.get("/leaderboard/current", async (req, res) => {
   const now = new Date();
   const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
@@ -64,36 +82,22 @@ app.get("/leaderboard/current", async (req, res) => {
   )}`;
 
   try {
-    const scores = await prisma.score.groupBy({
-      by: ["userId"],
-      where: { month },
-      _sum: { points: true },
-    });
+    const result = await pool.query(
+      `
+      SELECT users.name, SUM(scores.points) as points
+      FROM scores
+      JOIN users ON users.id = scores.user_id
+      WHERE month = $1
+      GROUP BY users.name
+      ORDER BY points DESC
+    `,
+      [month]
+    );
 
-    const users = await prisma.user.findMany();
-
-    const result = scores
-      .map((s) => ({
-        name: users.find((u) => u.id === s.userId)?.name || "Unknown",
-        points: s._sum.points || 0,
-      }))
-      .sort((a, b) => b.points - a.points);
-
-    res.json(result);
-  } catch (error) {
-    console.error("Error fetching leaderboard:", error);
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Error:", err);
     res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-app.get("/migrate", async (req, res) => {
-  try {
-    const { execSync } = require("child_process");
-    const output = execSync("npx prisma migrate deploy").toString();
-    res.status(200).send(`<pre>${output}</pre>`);
-  } catch (error) {
-    console.error("Migration error:", error);
-    res.status(500).send(error.message);
   }
 });
 
