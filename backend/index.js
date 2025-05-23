@@ -63,7 +63,7 @@ app.post("/users/remove", async (req, res) => {
   }
 });
 
-// POST: Add live points
+// POST: Add live points (always creates a new user if needed, doesn't reuse removed ones)
 app.post("/add-points", async (req, res) => {
   const { name, points } = req.body;
   if (!name || typeof points !== "number") {
@@ -77,9 +77,10 @@ app.post("/add-points", async (req, res) => {
   )}`;
 
   try {
-    let result = await pool.query("SELECT * FROM users WHERE name = $1", [
-      name,
-    ]);
+    const result = await pool.query(
+      "SELECT * FROM users WHERE name = $1 AND removed = FALSE",
+      [name]
+    );
 
     let userId;
     if (result.rows.length === 0) {
