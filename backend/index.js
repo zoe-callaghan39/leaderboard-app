@@ -86,17 +86,6 @@ app.get("/leaderboard/current", async (req, res) => {
   }
 });
 
-app.get("/migrate", async (req, res) => {
-  try {
-    const { execSync } = require("child_process");
-    const output = execSync("npx prisma migrate deploy").toString();
-    res.status(200).send(`<pre>${output}</pre>`);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send(error.message);
-  }
-});
-
 app.listen(PORT, () => {
   console.log(`🚀 Server ready at http://localhost:${PORT}`);
 });
