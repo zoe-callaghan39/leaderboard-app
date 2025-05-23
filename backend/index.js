@@ -75,29 +75,32 @@ app.post("/add-points", async (req, res) => {
 });
 
 app.get("/leaderboard/current", async (req, res) => {
-  const now = new Date();
-  const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
-    2,
-    "0"
-  )}`;
-
+  const client = await pool.connect();
   try {
-    const result = await pool.query(
+    const now = new Date();
+    const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
+      2,
+      "0"
+    )}`;
+
+    const result = await client.query(
       `
-      SELECT users.name, SUM(scores.points) as points
-      FROM scores
-      JOIN users ON users.id = scores.user_id
-      WHERE month = $1
-      GROUP BY users.name
-      ORDER BY points DESC
-    `,
+          SELECT users.name, SUM(scores.points) AS total_points
+          FROM scores
+          JOIN users ON scores.user_id = users.id
+          WHERE scores.month = $1
+          GROUP BY users.name
+          ORDER BY total_points DESC;
+        `,
       [month]
     );
 
     res.json(result.rows);
-  } catch (err) {
-    console.error("Error:", err);
+  } catch (error) {
+    console.error("Error fetching leaderboard:", error);
     res.status(500).json({ error: "Internal server error" });
+  } finally {
+    client.release();
   }
 });
 
