@@ -75,6 +75,15 @@ app.post("/add-points", async (req, res) => {
     2,
     "0"
   )}`;
+  const systemMonth = `${new Date().getFullYear()}-${String(
+    new Date().getMonth() + 1
+  ).padStart(2, "0")}`;
+
+  if (month !== systemMonth) {
+    return res
+      .status(400)
+      .json({ error: "Invalid system date or future month detected" });
+  }
 
   try {
     let result = await pool.query("SELECT * FROM users WHERE name = $1", [
@@ -90,7 +99,6 @@ app.post("/add-points", async (req, res) => {
       userId = insertUser.rows[0].id;
     } else {
       userId = result.rows[0].id;
-
       if (result.rows[0].removed) {
         await pool.query("UPDATE users SET removed = FALSE WHERE id = $1", [
           userId,
@@ -133,7 +141,6 @@ app.post("/add-historic", async (req, res) => {
       userId = insertUser.rows[0].id;
     } else {
       userId = result.rows[0].id;
-
       if (result.rows[0].removed) {
         await pool.query("UPDATE users SET removed = FALSE WHERE id = $1", [
           userId,
@@ -155,7 +162,6 @@ app.post("/add-historic", async (req, res) => {
   }
 });
 
-// GET: Current month leaderboard
 app.get("/leaderboard/current", async (req, res) => {
   const client = await pool.connect();
   try {
@@ -165,6 +171,8 @@ app.get("/leaderboard/current", async (req, res) => {
       "0"
     )}`;
 
+    console.log("💡 Current system month:", month);
+
     const result = await client.query(
       `
         SELECT users.name, SUM(scores.points) AS total_points
@@ -173,7 +181,7 @@ app.get("/leaderboard/current", async (req, res) => {
         WHERE scores.month = $1
         GROUP BY users.name
         ORDER BY total_points DESC;
-      `,
+        `,
       [month]
     );
 
@@ -186,16 +194,16 @@ app.get("/leaderboard/current", async (req, res) => {
   }
 });
 
-// GET: All-time leaderboard (should include all users)
+// GET: All-time leaderboard
 app.get("/leaderboard/all-time", async (req, res) => {
   try {
     const result = await pool.query(`
-        SELECT users.name, SUM(scores.points) AS total_points
-        FROM scores
-        JOIN users ON scores.user_id = users.id
-        GROUP BY users.name
-        ORDER BY total_points DESC;
-      `);
+      SELECT users.name, SUM(scores.points) AS total_points
+      FROM scores
+      JOIN users ON scores.user_id = users.id
+      GROUP BY users.name
+      ORDER BY total_points DESC;
+    `);
 
     res.json(result.rows);
   } catch (error) {
@@ -207,9 +215,8 @@ app.get("/leaderboard/all-time", async (req, res) => {
 // GET: Specific month's leaderboard
 app.get("/leaderboard/:month", async (req, res) => {
   const { month } = req.params;
-  const client = await pool.connect();
   try {
-    const result = await client.query(
+    const result = await pool.query(
       `
         SELECT users.name, SUM(scores.points) AS total_points
         FROM scores
@@ -225,8 +232,29 @@ app.get("/leaderboard/:month", async (req, res) => {
   } catch (error) {
     console.error(`Error fetching leaderboard for ${month}:`, error);
     res.status(500).json({ error: "Internal server error" });
-  } finally {
-    client.release();
+  }
+});
+
+// GET: Distinct months that have completed (exclude current month)
+app.get("/all-months", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT DISTINCT month FROM scores ORDER BY month DESC
+    `);
+
+    const now = new Date();
+    const currentMonth = `${now.getFullYear()}-${String(
+      now.getMonth() + 1
+    ).padStart(2, "0")}`;
+
+    const filtered = result.rows
+      .map((row) => row.month)
+      .filter((m) => m < currentMonth);
+
+    res.json(filtered);
+  } catch (err) {
+    console.error("Error fetching months:", err);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

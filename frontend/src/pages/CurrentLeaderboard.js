@@ -11,5 +11,16 @@ export default function CurrentLeaderboard() {
       .then((res) => setData(res.data));
   }, []);
 
-  return <Leaderboard data={data} title="Current Leaderboard" />;
+  return (
+    <div>
+      <h2 style={{ padding: "1rem" }}>Current Leaderboard</h2>
+      {data.length === 0 ? (
+        <p style={{ padding: "1rem" }}>
+          No scores have been added yet this month.
+        </p>
+      ) : (
+        <Leaderboard data={data} title="" />
+      )}
+    </div>
+  );
 }

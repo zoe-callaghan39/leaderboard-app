@@ -5,19 +5,32 @@ const API_BASE =
     ? "http://localhost:4000"
     : "https://leaderboard-app-v48a.onrender.com";
 
-const months = [
-  { label: "April 25 Leaderboard", value: "2025-04" },
-  { label: "March 25 Leaderboard", value: "2025-03" },
-  { label: "February 25 Leaderboard", value: "2025-02" },
-  { label: "January 25 Leaderboard", value: "2025-01" },
-  { label: "December 24 Leaderboard", value: "2024-12" },
-];
+const getMonthLabel = (value) => {
+  const [year] = value.split("-");
+  const date = new Date(`${value}-01`);
+  const monthName = date.toLocaleString("default", { month: "long" });
+  return `${monthName} ${year.slice(2)} Leaderboard`;
+};
 
 export default function PreviousLeaderboards() {
-  const [selectedMonth, setSelectedMonth] = useState(months[0].value);
+  const [months, setMonths] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState(null);
   const [leaderboard, setLeaderboard] = useState([]);
 
   useEffect(() => {
+    fetch(`${API_BASE}/all-months`)
+      .then((res) => res.json())
+      .then((data) => {
+        setMonths(data);
+        if (data.length > 0) {
+          setSelectedMonth(data[0]);
+        }
+      })
+      .catch((err) => console.error("Failed to fetch months", err));
+  }, []);
+
+  useEffect(() => {
+    if (!selectedMonth) return;
     fetch(`${API_BASE}/leaderboard/${selectedMonth}`)
       .then((res) => res.json())
       .then((data) => setLeaderboard(data))
@@ -38,18 +51,18 @@ export default function PreviousLeaderboards() {
       >
         {months.map((m) => (
           <button
-            key={m.value}
-            onClick={() => setSelectedMonth(m.value)}
+            key={m}
+            onClick={() => setSelectedMonth(m)}
             style={{
               padding: "0.5rem 1rem",
-              backgroundColor: selectedMonth === m.value ? "#333" : "#eee",
-              color: selectedMonth === m.value ? "#fff" : "#000",
+              backgroundColor: selectedMonth === m ? "#333" : "#eee",
+              color: selectedMonth === m ? "#fff" : "#000",
               border: "none",
               borderRadius: "5px",
               cursor: "pointer",
             }}
           >
-            {m.label}
+            {getMonthLabel(m)}
           </button>
         ))}
       </div>
