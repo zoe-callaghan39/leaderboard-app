@@ -40,7 +40,7 @@ app.get("/users", async (req, res) => {
     const result = await pool.query(
       "SELECT name FROM users WHERE removed = FALSE ORDER BY name ASC"
     );
-    res.json(result.rows.map((row) => ({ name: row.name }))); // ✅ fix here
+    res.json(result.rows.map((row) => ({ name: row.name })));
   } catch (err) {
     console.error("Error fetching users:", err);
     res.status(500).json({ error: "Internal server error" });
@@ -63,7 +63,7 @@ app.post("/users/remove", async (req, res) => {
   }
 });
 
-// POST: Add live points (always creates a new user if needed, doesn't reuse removed ones)
+// POST: Add live points
 app.post("/add-points", async (req, res) => {
   const { name, points } = req.body;
   if (!name || typeof points !== "number") {
@@ -77,10 +77,9 @@ app.post("/add-points", async (req, res) => {
   )}`;
 
   try {
-    const result = await pool.query(
-      "SELECT * FROM users WHERE name = $1 AND removed = FALSE",
-      [name]
-    );
+    let result = await pool.query("SELECT * FROM users WHERE name = $1", [
+      name,
+    ]);
 
     let userId;
     if (result.rows.length === 0) {
@@ -91,6 +90,12 @@ app.post("/add-points", async (req, res) => {
       userId = insertUser.rows[0].id;
     } else {
       userId = result.rows[0].id;
+
+      if (result.rows[0].removed) {
+        await pool.query("UPDATE users SET removed = FALSE WHERE id = $1", [
+          userId,
+        ]);
+      }
     }
 
     await pool.query(
@@ -128,6 +133,12 @@ app.post("/add-historic", async (req, res) => {
       userId = insertUser.rows[0].id;
     } else {
       userId = result.rows[0].id;
+
+      if (result.rows[0].removed) {
+        await pool.query("UPDATE users SET removed = FALSE WHERE id = $1", [
+          userId,
+        ]);
+      }
     }
 
     await pool.query(
@@ -175,16 +186,16 @@ app.get("/leaderboard/current", async (req, res) => {
   }
 });
 
-// GET: All-time leaderboard
+// GET: All-time leaderboard (should include all users)
 app.get("/leaderboard/all-time", async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT users.name, SUM(scores.points) AS total_points
-      FROM scores
-      JOIN users ON scores.user_id = users.id AND users.removed = FALSE
-      GROUP BY users.name
-      ORDER BY total_points DESC;
-    `);
+        SELECT users.name, SUM(scores.points) AS total_points
+        FROM scores
+        JOIN users ON scores.user_id = users.id
+        GROUP BY users.name
+        ORDER BY total_points DESC;
+      `);
 
     res.json(result.rows);
   } catch (error) {
@@ -193,7 +204,7 @@ app.get("/leaderboard/all-time", async (req, res) => {
   }
 });
 
-// GET: Specific month's leaderboard (e.g. 2025-04)
+// GET: Specific month's leaderboard
 app.get("/leaderboard/:month", async (req, res) => {
   const { month } = req.params;
   const client = await pool.connect();
@@ -202,7 +213,7 @@ app.get("/leaderboard/:month", async (req, res) => {
       `
         SELECT users.name, SUM(scores.points) AS total_points
         FROM scores
-        JOIN users ON scores.user_id = users.id AND users.removed = FALSE
+        JOIN users ON scores.user_id = users.id
         WHERE scores.month = $1
         GROUP BY users.name
         ORDER BY total_points DESC;

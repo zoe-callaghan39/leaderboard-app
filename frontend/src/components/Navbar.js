@@ -10,8 +10,12 @@ function Navbar() {
       <Link to="/all-time" style={{ marginRight: "1rem" }}>
         All-Time Leaderboard
       </Link>
-      <Link to="/historic/2025-04" style={{ marginRight: "1rem" }}>
-        Historic Leaderboard
+      <Link
+        to="/previous"
+        activeclassname="active"
+        style={{ marginRight: "1rem" }}
+      >
+        Previous Leaderboards
       </Link>
       <Link to="/manage-scores">Manage Scores</Link>
     </nav>
