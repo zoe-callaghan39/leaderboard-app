@@ -66,6 +66,7 @@ app.post("/users/remove", async (req, res) => {
 // POST: Add live points
 app.post("/add-points", async (req, res) => {
   const { name, points } = req.body;
+
   if (!name || typeof points !== "number") {
     return res.status(400).json({ error: "Name and numeric points required." });
   }
@@ -75,14 +76,16 @@ app.post("/add-points", async (req, res) => {
     2,
     "0"
   )}`;
+
   const systemMonth = `${new Date().getFullYear()}-${String(
     new Date().getMonth() + 1
   ).padStart(2, "0")}`;
 
+  // Prevent adding points for a different month than the system's current month
   if (month !== systemMonth) {
-    return res
-      .status(400)
-      .json({ error: "Invalid system date or future month detected" });
+    return res.status(400).json({
+      error: "Invalid system date or future month detected",
+    });
   }
 
   try {
