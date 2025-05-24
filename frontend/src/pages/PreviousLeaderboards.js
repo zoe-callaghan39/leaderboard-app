@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const API_BASE =
   process.env.NODE_ENV === "development"
@@ -18,20 +18,31 @@ export default function PreviousLeaderboards() {
   const [leaderboard, setLeaderboard] = useState([]);
 
   useEffect(() => {
-    fetch(`${API_BASE}/all-months`)
+    fetch(`${API_BASE}/all-months?nocache=${Date.now()}`)
       .then((res) => res.json())
       .then((data) => {
-        setMonths(data);
-        if (data.length > 0) {
-          setSelectedMonth(data[0]);
+        const now = new Date();
+        const currentMonth = `${now.getFullYear()}-${String(
+          now.getMonth() + 1
+        ).padStart(2, "0")}`;
+
+        const filtered = data
+          .filter((m) => m < currentMonth)
+          .sort()
+          .reverse();
+
+        setMonths(filtered);
+        if (filtered.length > 0) {
+          setSelectedMonth(filtered[0]);
         }
       })
-      .catch((err) => console.error("Failed to fetch months", err));
+      .catch((err) => console.error("Failed to fetch months:", err));
   }, []);
 
   useEffect(() => {
     if (!selectedMonth) return;
-    fetch(`${API_BASE}/leaderboard/${selectedMonth}`)
+
+    fetch(`${API_BASE}/leaderboard/${selectedMonth}?nocache=${Date.now()}`) // avoid stale responses
       .then((res) => res.json())
       .then((data) => setLeaderboard(data))
       .catch((err) => console.error("Failed to fetch leaderboard", err));
