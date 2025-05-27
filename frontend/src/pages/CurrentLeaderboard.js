@@ -2,10 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Leaderboard from "../components/Leaderboard";
 
-const API_BASE =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:4000"
-    : "https://leaderboard-app-v48a.onrender.com";
+const API_BASE = "https://leaderboard-app-v48a.onrender.com";
 
 export default function CurrentLeaderboard() {
   const [data, setData] = useState([]);
@@ -17,10 +14,10 @@ export default function CurrentLeaderboard() {
 
   useEffect(() => {
     setLoading(true);
-    setData([]); // clear stale data immediately
+    setData([]);
 
     axios
-      .get(`${API_BASE}/leaderboard/current?nocache=${Date.now()}`) // cache-busting
+      .get(`${API_BASE}/leaderboard/current?nocache=${Date.now()}`)
       .then((res) => {
         const freshData = res.data || [];
         console.log("✅ Response:", freshData);

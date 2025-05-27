@@ -81,7 +81,6 @@ app.post("/add-points", async (req, res) => {
     new Date().getMonth() + 1
   ).padStart(2, "0")}`;
 
-  // Prevent adding points for a different month than the system's current month
   if (month !== systemMonth) {
     return res.status(400).json({
       error: "Invalid system date or future month detected",
