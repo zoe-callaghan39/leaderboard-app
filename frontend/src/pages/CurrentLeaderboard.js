@@ -1,15 +1,36 @@
-import { useEffect, useState } from "react";
+// src/pages/CurrentLeaderboard.js
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Leaderboard from "../components/Leaderboard";
 
 const API_BASE = "https://leaderboard-app-v48a.onrender.com";
 
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 export default function CurrentLeaderboard() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const currentMonth = `${new Date().getFullYear()}-${String(
-    new Date().getMonth() + 1
+  // compute current month as e.g. "May"
+  const now = new Date();
+  const thisMonthName = monthNames[now.getMonth()];
+
+  // unchanged: build a cache-busting key so effect re-runs if month flips
+  const currentMonthKey = `${now.getFullYear()}-${String(
+    now.getMonth() + 1
   ).padStart(2, "0")}`;
 
   useEffect(() => {
@@ -19,9 +40,7 @@ export default function CurrentLeaderboard() {
     axios
       .get(`${API_BASE}/leaderboard/current?nocache=${Date.now()}`)
       .then((res) => {
-        const freshData = res.data || [];
-        console.log("✅ Response:", freshData);
-        setData(freshData);
+        setData(res.data || []);
         setLoading(false);
       })
       .catch((err) => {
@@ -29,20 +48,22 @@ export default function CurrentLeaderboard() {
         setData([]);
         setLoading(false);
       });
-  }, [currentMonth]);
+  }, [currentMonthKey]);
 
+  if (loading) {
+    return <p>Loading…</p>;
+  }
+
+  if (data.length === 0) {
+    return <p>No scores have been added yet this month.</p>;
+  }
+
+  // pass the dynamic title
   return (
-    <div>
-      <h2 style={{ padding: "1rem" }}>Current Leaderboard</h2>
-      {loading ? (
-        <p style={{ padding: "1rem" }}>Loading...</p>
-      ) : data.length === 0 ? (
-        <p style={{ padding: "1rem" }}>
-          No scores have been added yet this month.
-        </p>
-      ) : (
-        <Leaderboard key={currentMonth} data={data} title="" />
-      )}
-    </div>
+    <Leaderboard
+      key={currentMonthKey}
+      data={data}
+      title={`${thisMonthName} Leaderboard`}
+    />
   );
 }

@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const API_BASE =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:4000"
-    : "https://leaderboard-app-v48a.onrender.com";
+const API_BASE = "https://leaderboard-app-v48a.onrender.com";
 
 export default function ManageScoresPage() {
   const [users, setUsers] = useState([]);

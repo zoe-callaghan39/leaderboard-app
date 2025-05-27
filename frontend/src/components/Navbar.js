@@ -1,25 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import styles from "./styles/Navbar.module.css";
 
-function Navbar() {
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
   return (
-    <nav style={{ padding: "1rem", backgroundColor: "#f0f0f0" }}>
-      <Link to="/" style={{ marginRight: "1rem" }}>
-        Current Leaderboard
-      </Link>
-      <Link to="/all-time" style={{ marginRight: "1rem" }}>
-        All-Time Leaderboard
-      </Link>
-      <Link
-        to="/previous"
-        activeclassname="active"
-        style={{ marginRight: "1rem" }}
+    <nav className={styles.navbar}>
+      <button
+        className={styles.burger}
+        aria-label="Toggle menu"
+        onClick={() => setOpen((o) => !o)}
       >
-        Previous Leaderboards
-      </Link>
-      <Link to="/manage-scores">Manage Scores</Link>
+        <span />
+      </button>
+      <div className={`${styles.menu} ${open ? styles.open : ""}`}>
+        <Link to="/" onClick={() => setOpen(false)}>
+          Current
+        </Link>
+        <Link to="/all-time" onClick={() => setOpen(false)}>
+          All-Time
+        </Link>
+        <Link to="/previous" onClick={() => setOpen(false)}>
+          Previous
+        </Link>
+        <Link to="/manage-scores" onClick={() => setOpen(false)}>
+          Manage
+        </Link>
+      </div>
     </nav>
   );
 }
-
-export default Navbar;

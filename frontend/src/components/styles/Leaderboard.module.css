@@ -1,0 +1,200 @@
+/* src/components/styles/Leaderboard.module.css */
+.container {
+  position: relative;
+  z-index: 3;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    z-index: 3;
+  }
+
+  .title {
+    margin-bottom: 30px;
+    font-size: 2.25rem;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+  }
+
+  .topThree {
+    position: relative;
+    height: 260px;
+    margin-bottom: 15px;
+  }
+  
+  /* podium blocks */
+  .podiumBlock1,
+  .podiumBlock2,
+  .podiumBlock3 {
+    position: absolute;
+    bottom: 0;
+    border-radius: 16px 16px 0 0;
+    z-index: 1;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .podiumBlock1 {
+    width: 40%;
+    left: 30%;
+    height: 180px;
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  .podiumBlock2 {
+    width: 30%;
+    left: 0;
+    height: 140px;
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .podiumBlock3 {
+    width: 30%;
+    left: 70%;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  /* topUser (avatars & names) */
+  .topUser {
+    position: absolute;
+    width: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    z-index: 2;
+  }
+
+  .pos1 { bottom: 100px; left: 50%; transform: translateX(-50%); }
+  .pos2 { bottom: 60px; left: 0; }
+  .pos3 { bottom: 40px; left: calc(100% - 120px); }
+
+  .topUser.duo .name {
+    font-size: 1.125rem; /* smaller for two users */
+  }
+
+  .avatarWrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+  }
+  .avatarWrapper img {
+    height: 80px;
+    border-radius: 0;
+  }
+  .smallAvatar {
+    height: 60px;
+    border-radius: 0;
+  }
+  .pos1 .avatarWrapper img:not(.smallAvatar) {
+    height: 230px;
+    position: relative;
+    top: 60px;
+  }
+  .pos2 .avatarWrapper img:not(.smallAvatar) {
+    height: 95px;
+  }
+  .pos3 .avatarWrapper img:not(.smallAvatar) {
+    height: 80px;
+  }
+
+  .crown {
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+  }
+
+  .name {
+    margin-top: 0.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.5rem; /* podium username size */
+    color: white;
+  }
+
+  /* POINTS OVERLAY – shared baseline at 8px from bottom of .topThree */
+  .pointsOverlay {
+    position: absolute;
+    bottom: 8px;
+    width: 120px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    z-index: 2;
+  }
+
+  /* horizontal placement per slot */
+  .topThree .pointsOverlay.pos1 { left: 50%; transform: translateX(-50%); }
+  .topThree .pointsOverlay.pos2 { left: 0; }
+  .topThree .pointsOverlay.pos3 { left: calc(100% - 120px); }
+
+  /* rest of your list styles */
+  .list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .listItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    height: 64px;
+    padding: 0 1rem;
+    margin-bottom: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .listItem.current {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-weight: bold;
+  }
+
+  .rank {
+    flex-shrink: 0;
+    width: 24px;
+    text-align: right;
+    font-weight: bold;
+    font-size: 1rem;
+    color: white;
+  }
+
+  .listAvatar {
+    flex-shrink: 0;
+    width: 40px;
+    object-fit: cover;
+  }
+
+  .listName {
+    flex-grow: 1;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.125rem;
+    color: white;
+  }
+
+  .listItem .points {
+    font-size: 1.25rem; /* bigger list points */
+    font-weight: bold;
+    color: white;
+  }
+}
