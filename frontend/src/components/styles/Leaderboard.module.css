@@ -1,15 +1,65 @@
-/* src/components/styles/Leaderboard.module.css */
 .container {
   position: relative;
   z-index: 3;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--font-body);
   color: white;
+}
+
+.title {
+  font-family: var(--font-head);
+  font-weight: var(--fw-black);
+  font-size: min(3.5rem, 8vw);     
+  letter-spacing: var(--spacing-head);
+  margin-bottom: 1.5rem;
+}
+
+.name {
+  font-family: var(--font-head);
+  font-weight: var(--fw-semibold);
+  font-size: 1.25rem;
+  letter-spacing: 0;              
+  text-transform: none;            
+  color: #fff;
+}
+
+.pointsOverlay,
+.listItem .points {
+  font-family: var(--font-head);
+  font-weight: var(--fw-bold);
+  font-size: 1.125rem;
+  letter-spacing: var(--spacing-nav);
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+
+.listName {
+  font-family: var(--font-head);
+  font-weight: var(--fw-medium);
+  font-size: 1rem;
+  letter-spacing: 0;
+  text-transform: none;            
+  color: #fff;
+}
+
+.rank {
+  font-family: var(--font-head);
+  font-weight: var(--fw-medium);
+  font-size: 0.875rem;
+  letter-spacing: var(--spacing-nav);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.listItem {
+  background-color: rgba(0, 0, 0, 0.4);
+  border: none;
 }
 
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
     z-index: 3;
+    padding-top: 50px;
   }
 
   .title {
@@ -121,11 +171,10 @@
     margin-top: 0.5rem;
     font-weight: bold;
     text-transform: uppercase;
-    font-size: 1.5rem; /* podium username size */
+    font-size: 1.5rem; 
     color: white;
   }
 
-  /* POINTS OVERLAY – shared baseline at 8px from bottom of .topThree */
   .pointsOverlay {
     position: absolute;
     bottom: 8px;
@@ -137,12 +186,10 @@
     z-index: 2;
   }
 
-  /* horizontal placement per slot */
   .topThree .pointsOverlay.pos1 { left: 50%; transform: translateX(-50%); }
   .topThree .pointsOverlay.pos2 { left: 0; }
   .topThree .pointsOverlay.pos3 { left: calc(100% - 120px); }
 
-  /* rest of your list styles */
   .list {
     list-style: none;
     padding: 0;
@@ -193,7 +240,7 @@
   }
 
   .listItem .points {
-    font-size: 1.25rem; /* bigger list points */
+    font-size: 1.25rem; 
     font-weight: bold;
     color: white;
   }

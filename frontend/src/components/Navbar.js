@@ -1,31 +1,77 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styles from "./styles/Navbar.module.css";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+
+  const toggleMenu = () => setOpen((o) => !o);
+  const handleClose = () => setOpen(false);
+
   return (
-    <nav className={styles.navbar}>
+    <nav
+      className={`${styles.navbar} ${open ? styles.open : ""}`}
+      aria-label="Main navigation"
+    >
       <button
         className={styles.burger}
-        aria-label="Toggle menu"
-        onClick={() => setOpen((o) => !o)}
+        onClick={toggleMenu}
+        aria-label={open ? "Close menu" : "Open menu"}
+        aria-controls="mobile-menu"
+        aria-expanded={open}
       >
         <span />
       </button>
-      <div className={`${styles.menu} ${open ? styles.open : ""}`}>
-        <Link to="/" onClick={() => setOpen(false)}>
+
+      <div
+        id="mobile-menu"
+        className={`${styles.menu} ${open ? styles.open : ""}`}
+        role="menu"
+        aria-hidden={!open}
+      >
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            [styles.link, isActive && styles.active].filter(Boolean).join(" ")
+          }
+          onClick={handleClose}
+        >
+          <img src="/icons/current.png" alt="" className={styles.icon} />
           Current
-        </Link>
-        <Link to="/all-time" onClick={() => setOpen(false)}>
-          All-Time
-        </Link>
-        <Link to="/previous" onClick={() => setOpen(false)}>
+        </NavLink>
+
+        <NavLink
+          to="/previous"
+          className={({ isActive }) =>
+            [styles.link, isActive && styles.active].filter(Boolean).join(" ")
+          }
+          onClick={handleClose}
+        >
+          <img src="/icons/previous.png" alt="" className={styles.icon} />
           Previous
-        </Link>
-        <Link to="/manage-scores" onClick={() => setOpen(false)}>
+        </NavLink>
+
+        <NavLink
+          to="/all-time"
+          className={({ isActive }) =>
+            [styles.link, isActive && styles.active].filter(Boolean).join(" ")
+          }
+          onClick={handleClose}
+        >
+          <img src="/icons/all-time.png" alt="" className={styles.icon} />
+          All-Time
+        </NavLink>
+
+        <NavLink
+          to="/manage-scores"
+          className={({ isActive }) =>
+            [styles.link, isActive && styles.active].filter(Boolean).join(" ")
+          }
+          onClick={handleClose}
+        >
+          <img src="/icons/manage.png" alt="" className={styles.icon} />
           Manage
-        </Link>
+        </NavLink>
       </div>
     </nav>
   );

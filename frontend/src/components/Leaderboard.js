@@ -1,23 +1,19 @@
-// src/components/Leaderboard.js
 import React from "react";
 import styles from "./styles/Leaderboard.module.css";
 import AnimatedBackground from "./AnimatedBackground";
 
 export default function Leaderboard({ data, title }) {
-  // 1) Group users by their points
   const groupsByPoints = data.reduce((acc, u) => {
     acc[u.total_points] = acc[u.total_points] || [];
     acc[u.total_points].push(u);
     return acc;
   }, {});
 
-  // 2) Sort point-groups descending
   const sortedPointValues = Object.keys(groupsByPoints)
     .map(Number)
     .sort((a, b) => b - a);
   const pointGroups = sortedPointValues.map((pts) => groupsByPoints[pts]);
 
-  // 3) Allocate to podium slots using a queue
   const podiumMap = { 1: [], 2: [], 3: [] };
   const queue = [...pointGroups];
   let slot = 1;
@@ -32,13 +28,11 @@ export default function Leaderboard({ data, title }) {
     slot++;
   }
 
-  // 4) Build the rest of the list
   let rest = [];
   while (queue.length) {
     rest.push(...queue.shift());
   }
 
-  // 5) Assign ranks
   for (let s = 1; s <= 3; s++) {
     podiumMap[s].forEach((u) => (u.rank = s));
   }
@@ -63,7 +57,6 @@ export default function Leaderboard({ data, title }) {
     return u;
   });
 
-  // Avatar helpers
   const avatarFor = (name) => `/avatars/${name.toLowerCase()}.png`;
   const crownAvatarFor = (name) =>
     `/crown-avatars/${name.toLowerCase()}-crown.png`;
@@ -118,7 +111,6 @@ export default function Leaderboard({ data, title }) {
                   </div>
                 </div>
 
-                {/* absolute overlay, shares bottom baseline */}
                 <div className={`${styles.pointsOverlay} ${styles[`pos${s}`]}`}>
                   {points} pts
                 </div>
@@ -135,7 +127,7 @@ export default function Leaderboard({ data, title }) {
                 u.isCurrentUser ? styles.current : ""
               }`}
             >
-              <span className={styles.rank}>{u.rank}.</span>
+              <span className={styles.rank}>{u.rank}</span>
               <img
                 src={avatarFor(u.name)}
                 alt={u.name}
