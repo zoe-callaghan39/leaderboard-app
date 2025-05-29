@@ -1,0 +1,240 @@
+.container {
+    position: relative;
+    z-index: 3;
+    font-family: var(--font-body);
+    color: #fff;
+    padding: 1rem;
+    padding-top: 50px;
+    min-height: 100vh;
+  }
+  
+  .title {
+    font-family: var(--font-head);
+    font-weight: var(--fw-black);
+    font-size: 2.25rem;
+    letter-spacing: var(--spacing-head);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .monthSelector {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1rem;
+    width: 100%;
+    text-align: center;
+    z-index: 20;
+  }
+  
+  .monthToggle {
+    flex-shrink: 0;
+    width: 90%;
+    max-width: 300px;
+    padding: 0.75rem 1rem;
+    font-family: var(--font-body);
+    font-weight: var(--fw-semibold);
+    font-size: 1.125rem;
+    line-height: 1.5;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    text-transform: uppercase;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    z-index: 21;
+  }
+  
+  .monthToggleActive {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: var(--fw-bold);
+  }
+  
+  .arrowIcon {
+    width: 3rem;
+    height: 3rem;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    margin-left: -10px;
+  }
+  
+  .arrowIconOpen {
+    transform: rotate(180deg);
+  }
+  
+  .dropdownList {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 300px;
+    background: rgba(11, 37, 69, 0.4);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 21;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  }
+  
+  .dropdownItem {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-family: var(--font-body);
+    font-weight: var(--fw-medium);
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    background-color: transparent;
+    text-transform: uppercase;
+    cursor: pointer;
+  
+    opacity: 0.85;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      filter 0.2s ease,
+      transform 0.2s ease,
+      opacity 0.2s ease;
+  }
+  
+  .dropdownItem:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 1);
+    font-weight: var(--fw-bold);
+    opacity: 1;
+    filter: brightness(110%);
+    transform: scale(1.02);
+  }
+  
+  .dropdownItemActive {
+    color: #fff;
+    font-weight: var(--fw-bold);
+  }
+  
+  @media (min-width: 769px) {
+    .monthSelector,
+    .dropdownList {
+      position: static;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      background: none;
+      box-shadow: none;
+      backdrop-filter: none;
+      transform: none;
+      width: auto;
+      max-width: none;
+      z-index: auto;
+    }
+  
+    .monthToggle {
+      display: none;
+    }
+  
+    .dropdownItem {
+      padding: 0.75rem 1rem;
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      color: rgba(255, 255, 255, 0.8);
+      text-transform: uppercase;
+      cursor: pointer;
+      opacity: 0.9;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        filter 0.2s ease,
+        transform 0.2s ease;
+      will-change: background-color, color, filter, transform;
+    }
+  
+    .dropdownItem:hover {
+      background-color: rgba(255, 255, 255, 0.35);
+      opacity: 1;
+      color: rgba(255, 255, 255, 1);
+      font-weight: var(--fw-bold);
+      filter: brightness(110%);
+      transform: scale(1.02);
+    }
+  
+    .table thead {
+      display: table-header-group;
+    }
+  
+    .table th {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      font-family: var(--font-head);
+      font-weight: var(--fw-semibold);
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+  }
+  
+  .tableWrapper {
+    width: 100%;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table thead {
+    display: none;
+  }
+  
+  .table tbody tr {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .table td {
+    font-family: var(--font-head);
+    font-weight: var(--fw-medium);
+    font-size: 1rem;
+    color: #fff;
+    flex: 1;
+    padding: 0;
+  }
+  
+  .pointsCell {
+    flex-shrink: 0;
+    font-weight: var(--fw-bold);
+  }
+  
+  .dropdownList .dropdownItem {
+    opacity: 0.8;
+    transform: scale(1);
+    transition:
+      background-color 0.2s ease,
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      font-weight 0.2s ease;
+  }
+  
+  .dropdownList .dropdownItem:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+    opacity: 1;
+    transform: scale(1.05);
+    font-weight: var(--fw-bold);
+  }
+  
