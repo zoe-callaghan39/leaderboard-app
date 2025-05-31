@@ -30,8 +30,7 @@
   .monthToggle {
     flex-shrink: 0;
     width: 90%;
-    max-width: 300px;
-    padding: 0.75rem 1rem;
+    max-width: 300px;    
     font-family: var(--font-body);
     font-weight: var(--fw-semibold);
     font-size: 1.125rem;
@@ -85,6 +84,9 @@
     max-height: 200px;
     overflow-y: auto;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    overflow-x: hidden;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
   }
   
   .dropdownItem {
@@ -98,6 +100,9 @@
     background-color: transparent;
     text-transform: uppercase;
     cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   
     opacity: 0.85;
     transition:
@@ -136,6 +141,10 @@
       width: auto;
       max-width: none;
       z-index: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
+      box-sizing: border-box;
+      -webkit-overflow-scrolling: touch;
     }
   
     .monthToggle {
@@ -151,6 +160,9 @@
       text-transform: uppercase;
       cursor: pointer;
       opacity: 0.9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       transition:
         background-color 0.2s ease,
         color 0.2s ease,
