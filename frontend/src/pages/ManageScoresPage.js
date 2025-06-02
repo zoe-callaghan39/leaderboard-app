@@ -4,14 +4,23 @@ import styles from "./styles/ManageScoresPage.module.css";
 
 const API_BASE = "https://leaderboard-app-v48a.onrender.com";
 
+function capitalize(str) {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
 export default function ManageScoresPage() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
   const [points, setPoints] = useState("");
   const [action, setAction] = useState("add");
+
   const [newUserName, setNewUserName] = useState("");
   const [removeUserName, setRemoveUserName] = useState("");
-  const [message, setMessage] = useState("");
+
+  const [pointsMessage, setPointsMessage] = useState("");
+  const [addMessage, setAddMessage] = useState("");
+  const [removeMessage, setRemoveMessage] = useState("");
 
   const [openUser, setOpenUser] = useState(false);
   const userRef = useRef();
@@ -36,54 +45,89 @@ export default function ManageScoresPage() {
     document.body.addEventListener("click", onBodyClick);
     return () => document.body.removeEventListener("click", onBodyClick);
   }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setPointsMessage("");
     const num = parseInt(points, 10);
     if (!selectedUser || isNaN(num)) {
-      return setMessage("Please select a user and enter valid points.");
+      return setPointsMessage("Please select a user and enter valid points.");
     }
+
     const adjusted = action === "remove" ? -num : num;
     const res = await fetch(`${API_BASE}/add-points`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: selectedUser, points: adjusted }),
     });
-    const data = await res.json();
-    setMessage(data.message || "Error updating points.");
-    setPoints("");
+
+    if (res.ok) {
+      const verb = num === 1 ? "has" : "have";
+      if (action === "add") {
+        setPointsMessage(
+          `${num} point${
+            num !== 1 ? "s" : ""
+          } ${verb} been added to ${capitalize(selectedUser)}.`
+        );
+      } else {
+        setPointsMessage(
+          `${num} point${
+            num !== 1 ? "s" : ""
+          } ${verb} been removed from ${capitalize(selectedUser)}.`
+        );
+      }
+      setPoints("");
+    } else {
+      const data = await res.json();
+      setPointsMessage(data.message || "Error updating points.");
+    }
   };
 
   const handleAddUser = async (e) => {
     e.preventDefault();
+    setAddMessage("");
     if (!newUserName) {
-      return setMessage("Please enter a user name.");
+      return setAddMessage("Please enter a user name.");
     }
     const res = await fetch(`${API_BASE}/add-points`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: newUserName, points: 0 }),
     });
-    const data = await res.json();
-    setMessage(data.message || "User added.");
-    setNewUserName("");
-    setUsers((prev) => [...prev, { name: newUserName }]);
+    if (res.ok) {
+      setAddMessage(
+        `${capitalize(newUserName)} has been added to the leaderboard.`
+      );
+      setNewUserName("");
+      setUsers((prev) => [...prev, { name: newUserName }]);
+    } else {
+      const data = await res.json();
+      setAddMessage(data.message || "User could not be added.");
+    }
   };
 
   const handleRemoveUser = async (e) => {
     e.preventDefault();
+    setRemoveMessage("");
     if (!removeUserName) {
-      return setMessage("Select a user to remove.");
+      return setRemoveMessage("Select a user to remove.");
     }
     const res = await fetch(`${API_BASE}/users/remove`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: removeUserName }),
     });
-    const data = await res.json();
-    setMessage(data.message || "User removed.");
-    setRemoveUserName("");
-    setUsers((prev) => prev.filter((u) => u.name !== removeUserName));
+    if (res.ok) {
+      setRemoveMessage(
+        `${capitalize(
+          removeUserName
+        )} has been removed from the upcoming leaderboards.`
+      );
+      setRemoveUserName("");
+      setUsers((prev) => prev.filter((u) => u.name !== removeUserName));
+    } else {
+      const data = await res.json();
+      setRemoveMessage(data.message || "User could not be removed.");
+    }
   };
 
   return (
@@ -96,35 +140,6 @@ export default function ManageScoresPage() {
         <div className={styles.section}>
           <div className={styles.sectionHeader}>
             <h4 className={styles.sectionTitle}>Manage Points</h4>
-            <div
-              className={`${styles.toggleGroup} ${
-                action === "remove" ? styles.removeActive : ""
-              }`}
-            >
-              <span className={styles.pillIndicator} />
-              <button
-                type="button"
-                className={
-                  action === "add"
-                    ? `${styles.toggleButton} ${styles.toggleActive}`
-                    : styles.toggleButton
-                }
-                onClick={() => setAction("add")}
-              >
-                Add
-              </button>
-              <button
-                type="button"
-                className={
-                  action === "remove"
-                    ? `${styles.toggleButton} ${styles.toggleActive}`
-                    : styles.toggleButton
-                }
-                onClick={() => setAction("remove")}
-              >
-                Remove
-              </button>
-            </div>
           </div>
 
           <form className={styles.form} onSubmit={handleSubmit}>
@@ -138,7 +153,7 @@ export default function ManageScoresPage() {
                 }
                 onClick={() => setOpenUser((o) => !o)}
               >
-                {selectedUser || "Select a user"}
+                {selectedUser ? capitalize(selectedUser) : "Select a user"}
                 <img
                   src="/assets/chevron.png"
                   alt=""
@@ -166,7 +181,7 @@ export default function ManageScoresPage() {
                           setOpenUser(false);
                         }}
                       >
-                        {u.name}
+                        {capitalize(u.name)}
                       </div>
                     );
                   })}
@@ -181,11 +196,45 @@ export default function ManageScoresPage() {
               value={points}
               onChange={(e) => setPoints(e.target.value)}
             />
+            <div className={styles.toggleGroupContainer}>
+              <div
+                className={`
+                  ${styles.toggleGroup}
+                  ${action === "remove" ? styles.removeActive : ""}
+                `}
+              >
+                <span className={styles.pillIndicator} />
+                <button
+                  type="button"
+                  className={
+                    action === "add"
+                      ? `${styles.toggleButton} ${styles.toggleActive}`
+                      : styles.toggleButton
+                  }
+                  onClick={() => setAction("add")}
+                >
+                  Add
+                </button>
+                <button
+                  type="button"
+                  className={
+                    action === "remove"
+                      ? `${styles.toggleButton} ${styles.toggleActive}`
+                      : styles.toggleButton
+                  }
+                  onClick={() => setAction("remove")}
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
 
             <button className={styles.submitButton} type="submit">
               Submit
             </button>
           </form>
+
+          {pointsMessage && <p className={styles.message}>{pointsMessage}</p>}
         </div>
 
         <hr className={styles.hr} />
@@ -203,6 +252,8 @@ export default function ManageScoresPage() {
               Add User
             </button>
           </form>
+
+          {addMessage && <p className={styles.message}>{addMessage}</p>}
         </div>
 
         <hr className={styles.hr} />
@@ -220,7 +271,9 @@ export default function ManageScoresPage() {
                 }
                 onClick={() => setOpenRemove((o) => !o)}
               >
-                {removeUserName || "Select user to remove"}
+                {removeUserName
+                  ? capitalize(removeUserName)
+                  : "Select user to remove"}
                 <img
                   src="/assets/chevron.png"
                   alt=""
@@ -248,7 +301,7 @@ export default function ManageScoresPage() {
                           setOpenRemove(false);
                         }}
                       >
-                        {u.name}
+                        {capitalize(u.name)}
                       </div>
                     );
                   })}
@@ -259,9 +312,9 @@ export default function ManageScoresPage() {
               Remove
             </button>
           </form>
-        </div>
 
-        {message && <p className={styles.message}>{message}</p>}
+          {removeMessage && <p className={styles.message}>{removeMessage}</p>}
+        </div>
       </div>
     </div>
   );

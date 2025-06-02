@@ -11,5 +11,5 @@ export default function AllTimeLeaderboard() {
       .then((res) => setData(res.data));
   }, []);
 
-  return <Leaderboard data={data} title="All-Time Leaderboard" />;
+  return <Leaderboard data={data} title="All Time Leaderboard" />;
 }

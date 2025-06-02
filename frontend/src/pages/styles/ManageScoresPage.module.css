@@ -32,11 +32,10 @@
   }
   
   .section {
-    margin-bottom: -20px;
+    margin-bottom: -40px;
     padding: 1.5rem;
     background: rgba(0, 0, 0, 0.1);
     border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
   }
   
   .sectionTitle {
@@ -44,14 +43,22 @@
     font-weight: var(--fw-semibold);
     font-size: 1.125rem;
     margin-bottom: 1rem;
-
   }
   
   .form {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) auto;
+    grid-template-columns: 1fr auto;
     gap: 1rem;
-    align-items: end;
+  }
+  
+  .form .monthSelector {
+    grid-column: 1 / -1; 
+    width: 100%;
+  }
+  
+  .form .input {
+    grid-column: 1 / -1; 
+    width: 100%;
   }
   
   .input {
@@ -61,7 +68,6 @@
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.15);
     color: rgba(255, 255, 255, 0.8);
-  
     backdrop-filter: blur(8px);
     font-size: 1rem;
   }
@@ -70,8 +76,16 @@
     opacity: 1;
   }
   
+ 
+  .toggleGroupContainer {
+    grid-column: 1; 
+    grid-row: 3;    
+    align-self: start;
+  }
+  
   .submitButton {
-    grid-column: -1;
+    grid-column: 2; 
+    grid-row: 3;  
     justify-self: end;
     padding: 0.75rem 1.5rem;
     font-family: var(--font-head);
@@ -94,16 +108,20 @@
   }
   
   .message {
+    margin-top: 2rem;
     text-align: center;
     font-weight: var(--fw-medium);
-    color: #ffeb3b;
+  
+    font-family: var(--font-body);
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: none; 
   }
   
   .monthSelector {
     position: relative;
     display: inline-block;
     margin-bottom: 1rem;
-    width: auto;
+    width: 100%; 
     text-align: center;
     z-index: 20;
   }
@@ -118,18 +136,18 @@
     border-radius: 12px;
     cursor: pointer;
     background-color: rgba(255, 255, 255, 0.15);
-    color: #fff;
-    text-transform: uppercase; 
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: none;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 0.5rem;
     transition: background-color 0.3s ease, color 0.3s ease;
     z-index: 21;
     width: 100%;
-    padding: 0.5rem 0.75rem;
+    padding: 0.5rem 1rem;
   }
   
   .monthToggleActive {
@@ -143,7 +161,6 @@
     height: 1.5rem;
     transition: transform 0.3s ease;
     flex-shrink: 0;
-    margin-left: -8px;
   }
   
   .arrowIconOpen {
@@ -164,7 +181,6 @@
     z-index: 21;
     max-height: 200px;
     overflow-y: auto;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   }
   
   .dropdownItem {
@@ -177,6 +193,7 @@
     color: rgba(255, 255, 255, 0.8);
     background-color: transparent;
     cursor: pointer;
+    text-transform: none;
     opacity: 0.85;
     transition:
       background-color 0.2s ease,
@@ -211,7 +228,7 @@
     display: inline-flex;
     position: relative;
     background: rgba(255, 255, 255, 0.15);
-    border: 2px solid rgba(255, 255, 255, 0.7);
+    border: 2px solid rgba(255, 255, 255, 0.5);
     border-radius: 999px;
     overflow: hidden;
     font-size: 0.75rem;
@@ -225,13 +242,20 @@
     background: transparent;
     border: none;
     padding: 0.5rem 0.75rem;
+    border-radius: 999px;
+  
     font-family: var(--font-head);
     font-weight: var(--fw-semibold);
     text-transform: uppercase;
-  
     color: #fff;
     cursor: pointer;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .toggleButton:focus,
+  .toggleButton:active {
+    background: transparent;
+    outline: none;
   }
   
   .toggleButton:not(:last-child) {
@@ -248,7 +272,7 @@
     left: 1px;
     width: calc(45% - 2px);
     height: calc(100% - 2px);
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 999px;
     transition:
       left 0.3s ease,
