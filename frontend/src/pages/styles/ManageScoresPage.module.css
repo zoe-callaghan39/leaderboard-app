@@ -52,12 +52,12 @@
   }
   
   .form .monthSelector {
-    grid-column: 1 / -1; 
+    grid-column: 1 / -1;
     width: 100%;
   }
   
   .form .input {
-    grid-column: 1 / -1; 
+    grid-column: 1 / -1;
     width: 100%;
   }
   
@@ -78,14 +78,14 @@
   
  
   .toggleGroupContainer {
-    grid-column: 1; 
-    grid-row: 3;    
+    grid-column: 1;
+    grid-row: 3;
     align-self: start;
   }
   
   .submitButton {
-    grid-column: 2; 
-    grid-row: 3;  
+    grid-column: 2;
+    grid-row: 3;
     justify-self: end;
     padding: 0.75rem 1.5rem;
     font-family: var(--font-head);
@@ -114,14 +114,14 @@
   
     font-family: var(--font-body);
     color: rgba(255, 255, 255, 0.8);
-    text-transform: none; 
+    text-transform: none;
   }
   
   .monthSelector {
     position: relative;
     display: inline-block;
     margin-bottom: 1rem;
-    width: 100%; 
+    width: 100%;
     text-align: center;
     z-index: 20;
   }
@@ -181,6 +181,7 @@
     z-index: 21;
     max-height: 200px;
     overflow-y: auto;
+    overflow-x: hidden; 
   }
   
   .dropdownItem {
