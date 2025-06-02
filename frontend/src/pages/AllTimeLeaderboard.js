@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Leaderboard from "../components/Leaderboard";
+import css from "./styles/AllTimeLeaderboard.module.css";
 
 export default function AllTimeLeaderboard() {
   const [data, setData] = useState([]);
@@ -11,5 +12,10 @@ export default function AllTimeLeaderboard() {
       .then((res) => setData(res.data));
   }, []);
 
-  return <Leaderboard data={data} title="All Time Leaderboard" />;
+  return (
+    <div>
+      <h2 className={css.title}>All Time{"\n"}Leaderboard</h2>
+      <Leaderboard data={data} title={null} />
+    </div>
+  );
 }

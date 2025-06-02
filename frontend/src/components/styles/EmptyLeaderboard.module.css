@@ -1,102 +1,212 @@
-.wrapper {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-  }
+/* Mobile Styles */
+   @media (max-width: 768px) {
+    .wrapper {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
   
-  .content {
-    position: relative;
-    z-index: 3;
-    font-family: var(--font-body);
-    color: #fff;
-    padding: 1rem;
-    padding-top: 50px;
-    min-height: 100vh;
+    .content {
+      position: relative;
+      z-index: 3;
+      font-family: var(--font-body);
+      color: #fff;
+      padding: 1rem;
+      padding-top: 50px;
+      min-height: 100vh;
   
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-  }
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
   
-  .textContainer {
-    display: inline-block;
-    text-align: center;
-  }
+    .textContainer {
+      display: inline-block;
+      text-align: center;
+    }
   
-  .title {
-    font-family: var(--font-head);
-    font-weight: var(--fw-black);
-    font-size: min(3.5rem, 8vw);
-    letter-spacing: var(--spacing-head);
-    margin-bottom: 1.5rem;
-    text-transform: uppercase;
-    text-align: center;
-  }
+    .title {
+      font-family: var(--font-head);
+      font-weight: var(--fw-black);
+      font-size: 2rem;
+      letter-spacing: var(--spacing-head);
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      text-align: center;
+      margin-top: 30px;
+    }
   
-  .message {
-    font-family: var(--font-body);
-    font-size: 1.3rem;
-    text-align: center;
-    font-weight: 500;
-    display: inline-block;
-    width: 100%;
-    color: rgba(255, 255, 255, 0.8);
-  }
+    .message {
+      font-family: var(--font-body);
+      font-size: 1.3rem;
+      text-align: center;
+      font-weight: 500;
+      display: inline-block;
+      width: 90%;
+      color: rgba(255, 255, 255, 0.8);
+    }
   
-  .heart {
-    position: absolute;
-    z-index: 2;
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.8);
-  
-    animation:
-      appear 1.5s var(--appear-delay) ease-out forwards,
-      flicker var(--flicker-dur) var(--flicker-delay) infinite ease-in-out,
-      drift var(--drift-dur) var(--drift-delay) infinite ease-in-out;
-  }
-  
-  @keyframes appear {
-    0% {
+    .heart {
+      position: absolute;
+      z-index: 2;
       opacity: 0;
       transform: translate(-50%, -50%) scale(0.8);
+  
+      animation:
+        appear 1.5s var(--appear-delay) ease-out forwards,
+        flicker var(--flicker-dur) var(--flicker-delay) infinite ease-in-out,
+        drift var(--drift-dur) var(--drift-delay) infinite ease-in-out;
     }
-    100% {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
+  
+    @keyframes appear {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+  
+    @keyframes flicker {
+      0%, 100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      50% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+  
+    @keyframes drift {
+      0% {
+        transform: translate(
+            calc(-50% + var(--drift-amt)),
+            calc(-50% + var(--drift-amt))
+          )
+          scale(1);
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1);
+      }
+      100% {
+        transform: translate(
+            calc(-50% - var(--drift-amt)),
+            calc(-50% - var(--drift-amt))
+          )
+          scale(1);
+      }
     }
   }
   
-  @keyframes flicker {
-    0%,
-    100% {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
-    50% {
-      opacity: 0.5;
-      transform: translate(-50%, -50%) scale(1);
-    }
-  }
   
-  @keyframes drift {
-    0% {
-      transform: translate(
-          calc(-50% + var(--drift-amt)),
-          calc(-50% + var(--drift-amt))
-        )
-        scale(1);
+  /* Desktop Styles */
+  @media (min-width: 769px) {
+    .wrapper {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
     }
-    50% {
+  
+    .content {
+      position: relative;
+      z-index: 3;
+      font-family: var(--font-body);
+      color: #fff;
+      padding: 2rem;
+      padding-top: 100px;
+      min-height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+  
+    .textContainer {
+      display: inline-block;
+      text-align: center;
+    }
+  
+    .title {
+      font-family: var(--font-head);
+      font-weight: var(--fw-black);
+      font-size: 3rem;
+      letter-spacing: var(--spacing-head);
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      text-align: center;
+      margin-top: -10px;
+    }
+  
+    .message {
+      font-family: var(--font-body);
+      font-size: 1.5rem;
+      text-align: center;
+      font-weight: 500;
+      display: inline-block;
+      width: 100%;
+      color: rgba(255, 255, 255, 0.8);
+    }
+  
+    .heart {
+      position: absolute;
+      z-index: 2;
+      opacity: 0;
+      max-width: 15vw !important;
       transform: translate(-50%, -50%) scale(1);
+  
+      animation:
+        appear 1.5s var(--appear-delay) ease-out forwards,
+        flicker var(--flicker-dur) var(--flicker-delay) infinite ease-in-out,
+        drift var(--drift-dur) var(--drift-delay) infinite ease-in-out;
     }
-    100% {
-      transform: translate(
-          calc(-50% - var(--drift-amt)),
-          calc(-50% - var(--drift-amt))
-        )
-        scale(1);
+  
+    @keyframes appear {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+  
+    @keyframes flicker {
+      0%, 100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      50% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+  
+    @keyframes drift {
+      0% {
+        transform: translate(
+            calc(-50% + var(--drift-amt)),
+            calc(-50% + var(--drift-amt))
+          )
+          scale(1);
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1);
+      }
+      100% {
+        transform: translate(
+            calc(-50% - var(--drift-amt)),
+            calc(-50% - var(--drift-amt))
+          )
+          scale(1);
+      }
     }
   }
   

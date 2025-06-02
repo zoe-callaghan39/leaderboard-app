@@ -1,292 +1,609 @@
-.container {
-    position: relative;
-    z-index: 3;
-    font-family: var(--font-body);
-    color: #fff;
-    padding: 1rem;
-    padding-top: 50px;
-    min-height: 100vh;
-    text-transform: uppercase;
+/* Mobile Styles  */
+   @media (max-width: 768px) {
+    .container {
+      position: relative;
+      z-index: 3;
+      font-family: var(--font-body);
+      color: #fff;
+      padding: 1rem;
+      padding-top: 50px;
+      min-height: 100vh;
+      text-transform: uppercase;
+    }
+  
+    .inner {
+      position: relative;
+      z-index: 3;
+      max-width: 500px;
+      margin: 2rem auto;
+      padding: 2rem;
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #fff;
+      font-family: var(--font-body);
+    }
+  
+    .title {
+      font-family: var(--font-head);
+      font-weight: var(--fw-black);
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      margin-top: -40px;
+    }
+  
+    .section {
+      margin-bottom: -40px;
+      padding: 1.5rem;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+    }
+  
+    .sectionTitle {
+      font-family: var(--font-head);
+      font-weight: var(--fw-semibold);
+      font-size: 1.125rem;
+      margin-bottom: 1rem;
+    }
+  
+    .form {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+    }
+  
+    .form .monthSelector {
+      grid-column: 1 / -1;
+      width: 100%;
+    }
+  
+    .form .input {
+      grid-column: 1 / -1;
+      width: 100%;
+    }
+  
+    .input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      font-size: 1rem;
+    }
+    .input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+      opacity: 1;
+    }
+  
+    .toggleGroupContainer {
+      grid-column: 1;
+      grid-row: 3;
+      align-self: start;
+    }
+  
+    .submitButton {
+      grid-column: 2;
+      grid-row: 3;
+      justify-self: end;
+      padding: 0.75rem 1.5rem;
+      font-family: var(--font-head);
+      font-weight: var(--fw-semibold);
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.25);
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .submitButton:hover {
+      background: rgba(255, 255, 255, 0.35);
+      transform: translateY(-2px);
+    }
+  
+    .hr {
+      border: none;
+      margin: 2rem 0;
+    }
+  
+    .message {
+      margin-top: 2rem;
+      text-align: center;
+      font-weight: var(--fw-medium);
+      font-family: var(--font-body);
+      color: rgba(255, 255, 255, 0.8);
+      text-transform: none;
+    }
+  
+    .monthSelector {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 1rem;
+      width: 100%;
+      text-align: center;
+      z-index: 20;
+    }
+  
+    .monthToggle {
+      flex-shrink: 0;
+      font-family: var(--font-body);
+      font-weight: var(--fw-semibold);
+      font-size: 1rem;
+      line-height: 1.5;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      background-color: rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.8);
+      text-transform: none;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      z-index: 21;
+      width: 100%;
+      padding: 0.5rem 1rem;
+    }
+  
+    .monthToggleActive {
+      background-color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: var(--fw-bold);
+    }
+  
+    .arrowIcon {
+      width: 1.5rem;
+      height: 1.5rem;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+  
+    .arrowIconOpen {
+      transform: rotate(180deg);
+    }
+  
+    .dropdownList {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 300px;
+      background: rgba(11, 37, 69, 0.4);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 21;
+      max-height: 200px;
+      overflow-y: auto;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+      overflow-x: hidden;
+      box-sizing: border-box;
+      -webkit-overflow-scrolling: touch;
+    }
+  
+    .dropdownItem {
+      display: block;
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-family: var(--font-body);
+      font-weight: var(--fw-medium);
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      background-color: transparent;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      opacity: 0.85;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        filter 0.2s ease,
+        transform 0.2s ease,
+        opacity 0.2s ease;
+    }
+  
+    .dropdownItem:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 1);
+      font-weight: var(--fw-bold);
+      opacity: 1;
+      filter: brightness(110%);
+      transform: scale(1.02);
+    }
+  
+    .dropdownItemActive {
+      color: #fff;
+      font-weight: var(--fw-bold);
+    }
+  
+    .sectionHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+  
+    .toggleGroup {
+      display: inline-flex;
+      position: relative;
+      background: rgba(255, 255, 255, 0.15);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 999px;
+      overflow: hidden;
+      font-size: 0.75rem;
+      padding: 1px;
+    }
+  
+    .toggleButton {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 0.5rem 0.75rem;
+      border-radius: 999px;
+      font-family: var(--font-head);
+      font-weight: var(--fw-semibold);
+      text-transform: uppercase;
+      color: #fff;
+      cursor: pointer;
+      transition: color 0.3s ease, background-color 0.3s ease;
+    }
+  
+    .toggleButton:focus,
+    .toggleButton:active {
+      background: transparent;
+      outline: none;
+    }
+  
+    .toggleButton:not(:last-child) {
+      margin-right: -2px;
+    }
+  
+    .toggleButton:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  
+    .pillIndicator {
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      width: calc(45% - 2px);
+      height: calc(100% - 2px);
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 999px;
+      transition:
+        left 0.3s ease,
+        width 0.3s ease;
+      z-index: 0;
+    }
+  
+    .removeActive .pillIndicator {
+      width: calc(60% - 2px);
+      left: calc(40% + 1px);
+    }
+  
+    .toggleActive {
+      color: rgba(11, 37, 69, 0.9);
+    }
   }
   
-  .inner {
-    position: relative;
-    z-index: 3;
-    max-width: 500px;
-    margin: 2rem auto;
-    padding: 2rem;
-    border-radius: 16px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    color: #fff;
-    font-family: var(--font-body);
-  }
   
-  .title {
-    font-family: var(--font-head);
-    font-weight: var(--fw-black);
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    margin-top: 0px;
-  }
+  /* Desktop Styles */
+  @media (min-width: 769px) {
+    .container {
+      position: relative;
+      z-index: 3;
+      font-family: var(--font-body);
+      color: #fff;
+      max-width: 1000px;    
+      margin: 0 auto;
+      padding: 2rem;
+      min-height: 100vh;
+      text-transform: uppercase;
+    }
   
-  .section {
-    margin-bottom: -40px;
-    padding: 1.5rem;
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-  }
+    .inner {
+      position: relative;
+      z-index: 3;
+      max-width: 700px;    
+      margin: 3rem auto;    
+      padding: 3rem;       
+      border-radius: 20px;  
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #fff;
+      font-family: var(--font-body);
+    }
   
-  .sectionTitle {
-    font-family: var(--font-head);
-    font-weight: var(--fw-semibold);
-    font-size: 1.125rem;
-    margin-bottom: 1rem;
-  }
+    .title {
+      font-family: var(--font-head);
+      font-weight: var(--fw-black);
+      font-size: 3rem;  
+      text-align: center;
+      margin-bottom: 2rem;
+      margin-top: 0;
+      margin-top: -30px;
+    }
   
-  .form {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 1rem;
-  }
+    .section {
+      margin-bottom: -30px;
+      padding: 2rem;       
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 16px;  
+    }
   
-  .form .monthSelector {
-    grid-column: 1 / -1;
-    width: 100%;
-  }
+    .sectionTitle {
+      font-family: var(--font-head);
+      font-weight: var(--fw-semibold);
+      font-size: 1.25rem;  
+      margin-bottom: 1.5rem;
+    }
   
-  .form .input {
-    grid-column: 1 / -1;
-    width: 100%;
-  }
+    .form {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1.5rem;        
+    }
   
-  .input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: none;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.15);
-    color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(8px);
-    font-size: 1rem;
-  }
-  .input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-    opacity: 1;
-  }
+    .form .monthSelector {
+      grid-column: 1 / -1;
+      width: 100%;
+    }
   
- 
-  .toggleGroupContainer {
-    grid-column: 1;
-    grid-row: 3;
-    align-self: start;
-  }
+    .form .input {
+      grid-column: 1 / -1;
+      width: 100%;
+    }
   
-  .submitButton {
-    grid-column: 2;
-    grid-row: 3;
-    justify-self: end;
-    padding: 0.75rem 1.5rem;
-    font-family: var(--font-head);
-    font-weight: var(--fw-semibold);
-    border: none;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.25);
-    color: #fff;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
-  }
-  .submitButton:hover {
-    background: rgba(255, 255, 255, 0.35);
-    transform: translateY(-2px);
-  }
+    .input {
+      width: 100%;
+      padding: 1rem 1.25rem; 
+      border: none;
+      border-radius: 10px;   
+      background: rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      font-size: 1.125rem;   
+      -moz-appearance: textfield;
+    }
+
+    .input::-webkit-outer-spin-button,
+    .input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
   
-  .hr {
-    border: none;
-    margin: 2rem 0;
-  }
+    .input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+      opacity: 1;
+    }
   
-  .message {
-    margin-top: 2rem;
-    text-align: center;
-    font-weight: var(--fw-medium);
+    .toggleGroupContainer {
+      grid-column: 1;
+      grid-row: 3;
+      align-self: start;
+    }
   
-    font-family: var(--font-body);
-    color: rgba(255, 255, 255, 0.8);
-    text-transform: none;
-  }
+    .submitButton {
+      grid-column: 2;
+      grid-row: 3;
+      justify-self: end;
+      padding: 1rem 2rem;    
+      font-family: var(--font-head);
+      font-weight: var(--fw-semibold);
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.3);
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .submitButton:hover {
+      background: rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px);
+    }
   
-  .monthSelector {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 1rem;
-    width: 100%;
-    text-align: center;
-    z-index: 20;
-  }
+    .hr {
+      border: none;
+      margin: 3rem 0;
+    }
   
-  .monthToggle {
-    flex-shrink: 0;
-    font-family: var(--font-body);
-    font-weight: var(--fw-semibold);
-    font-size: 1rem;
-    line-height: 1.5;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    background-color: rgba(255, 255, 255, 0.15);
-    color: rgba(255, 255, 255, 0.8);
-    text-transform: none;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    z-index: 21;
-    width: 100%;
-    padding: 0.5rem 1rem;
-  }
+    .message {
+      margin-top: 2.5rem;
+      text-align: center;
+      font-weight: var(--fw-medium);
+      font-family: var(--font-body);
+      color: rgba(255, 255, 255, 0.85);
+      text-transform: none;
+    }
   
-  .monthToggleActive {
-    background-color: rgba(255, 255, 255, 0.3);
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: var(--fw-bold);
-  }
+    .monthSelector {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      width: 100%;
+      text-align: center;
+      z-index: 20;
+    }
   
-  .arrowIcon {
-    width: 1.5rem;
-    height: 1.5rem;
-    transition: transform 0.3s ease;
-    flex-shrink: 0;
-  }
+    .monthToggle {
+      flex-shrink: 0;
+      font-family: var(--font-body);
+      font-weight: var(--fw-semibold);
+      font-size: 1.125rem;  
+      line-height: 1.5;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      background-color: rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.85);
+      text-transform: none;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;       
+      transition: background-color 0.3s ease, color 0.3s ease;
+      z-index: 21;
+      width: 100%;
+      padding: 0.75rem 1.25rem; 
+    }
   
-  .arrowIconOpen {
-    transform: rotate(180deg);
-  }
+    .monthToggleActive {
+      background-color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: var(--fw-bold);
+    }
   
-  .dropdownList {
-    position: absolute;
-    top: calc(100% + 0.5rem);
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 300px;
-    background: rgba(11, 37, 69, 0.4);
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    z-index: 21;
-    max-height: 200px;
-    overflow-y: auto;
-    overflow-x: hidden; 
-  }
+    .arrowIcon {
+      width: 2rem;          
+      height: 2rem;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
   
-  .dropdownItem {
-    display: block;
-    width: 100%;
-    padding: 0.75rem 1rem;
-    font-family: var(--font-body);
-    font-weight: var(--fw-medium);
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.8);
-    background-color: transparent;
-    cursor: pointer;
-    text-transform: none;
-    opacity: 0.85;
-    transition:
-      background-color 0.2s ease,
-      color 0.2s ease,
-      filter 0.2s ease,
-      transform 0.2s ease,
-      opacity 0.2s ease;
-  }
+    .arrowIconOpen {
+      transform: rotate(180deg);
+    }
   
-  .dropdownItem:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 1);
-    font-weight: var(--fw-bold);
-    opacity: 1;
-    filter: brightness(110%);
-    transform: scale(1.02);
-  }
+    .dropdownList {
+      position: absolute;
+      top: calc(100% + 0.75rem);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 350px;    
+      background: rgba(11, 37, 69, 0.4);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 21;
+      max-height: 250px;  
+      overflow-y: auto;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+      overflow-x: hidden;
+      box-sizing: border-box;
+      -webkit-overflow-scrolling: touch;
+    }
   
-  .dropdownItemActive {
-    color: #fff;
-    font-weight: var(--fw-bold);
-  }
+    .dropdownItem {
+      display: block;
+      width: 100%;
+      padding: 1rem 1.5rem;
+      font-family: var(--font-body);
+      font-weight: var(--fw-medium);
+      font-size: 1.125rem;
+      color: rgba(255, 255, 255, 0.85);
+      background-color: transparent;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      opacity: 0.9;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        filter 0.2s ease,
+        transform 0.2s ease,
+        opacity 0.2s ease;
+      will-change: background-color, color, filter, transform;
+    }
   
-  .sectionHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-  }
+    .dropdownItem:hover {
+      background-color: rgba(255, 255, 255, 0.35);
+      color: rgba(255, 255, 255, 1);
+      font-weight: var(--fw-bold);
+      filter: brightness(110%);
+      transform: scale(1.02);
+    }
   
-  .toggleGroup {
-    display: inline-flex;
-    position: relative;
-    background: rgba(255, 255, 255, 0.15);
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    border-radius: 999px;
-    overflow: hidden;
-    font-size: 0.75rem;
-    padding: 1px;
-  }
+    .dropdownItemActive {
+      color: #fff;
+      font-weight: var(--fw-bold);
+    }
   
-  .toggleButton {
-    position: relative;
-    z-index: 1;
-    flex: 1;
-    background: transparent;
-    border: none;
-    padding: 0.5rem 0.75rem;
-    border-radius: 999px;
+    .sectionHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
   
-    font-family: var(--font-head);
-    font-weight: var(--fw-semibold);
-    text-transform: uppercase;
-    color: #fff;
-    cursor: pointer;
-    transition: color 0.3s ease, background-color 0.3s ease;
-  }
+    .toggleGroup {
+      display: inline-flex;
+      position: relative;
+      background: rgba(255, 255, 255, 0.15);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 999px;
+      overflow: hidden;
+      font-size: 0.875rem; 
+      padding: 2px;      
+    }
   
-  .toggleButton:focus,
-  .toggleButton:active {
-    background: transparent;
-    outline: none;
-  }
+    .toggleButton {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 0.75rem 1rem; 
+      border-radius: 999px;
+      font-family: var(--font-head);
+      font-weight: var(--fw-semibold);
+      text-transform: uppercase;
+      color: #fff;
+      cursor: pointer;
+      transition: color 0.3s ease, background-color 0.3s ease;
+    }
   
-  .toggleButton:not(:last-child) {
-    margin-right: -2px;
-  }
+    .toggleButton:focus,
+    .toggleButton:active {
+      background: transparent;
+      outline: none;
+    }
   
-  .toggleButton:hover {
-    background: rgba(255, 255, 255, 0.2);
-  }
+    .toggleButton:not(:last-child) {
+      margin-right: -2px;
+    }
   
-  .pillIndicator {
-    position: absolute;
-    top: 1px;
-    left: 1px;
-    width: calc(45% - 2px);
-    height: calc(100% - 2px);
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: 999px;
-    transition:
-      left 0.3s ease,
-      width 0.3s ease;
-    z-index: 0;
-  }
+    .toggleButton:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
   
-  .removeActive .pillIndicator {
-    width: calc(60% - 2px);
-    left: calc(40% + 1px);
-  }
+    .pillIndicator {
+      position: absolute;
+      top: 2px;            
+      left: 2px;
+      width: calc(45% - 4px);
+      height: calc(100% - 4px);
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 999px;
+      transition:
+        left 0.3s ease,
+        width 0.3s ease;
+      z-index: 0;
+    }
   
-  .toggleActive {
-    color: rgba(11, 37, 69, 0.9);
+    .removeActive .pillIndicator {
+      width: calc(60% - 4px);
+      left: calc(40% + 2px);
+    }
+  
+    .toggleActive {
+      color: rgba(11, 37, 69, 0.9);
+    }
   }
   

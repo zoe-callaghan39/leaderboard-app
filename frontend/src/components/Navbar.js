@@ -59,7 +59,7 @@ export default function Navbar() {
           onClick={handleClose}
         >
           <img src="/icons/all-time.png" alt="" className={styles.icon} />
-          All-Time
+          All Time
         </NavLink>
 
         <NavLink
