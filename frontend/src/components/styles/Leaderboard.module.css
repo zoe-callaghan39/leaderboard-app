@@ -77,7 +77,6 @@
     margin-bottom: 15px;
   }
   
-  /* podium blocks */
   .podiumBlock1,
   .podiumBlock2,
   .podiumBlock3 {
@@ -87,7 +86,6 @@
     z-index: 1;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .podiumBlock1 {
@@ -114,7 +112,6 @@
     border-color: rgba(255, 255, 255, 0.25);
   }
 
-  /* topUser (avatars & names) */
   .topUser {
     position: absolute;
     width: 120px;
@@ -130,7 +127,7 @@
   .pos3 { bottom: 40px; left: calc(100% - 120px); }
 
   .topUser.duo .name {
-    font-size: 1.125rem; /* smaller for two users */
+    font-size: 1.125rem;
   }
 
   .avatarWrapper {
@@ -204,7 +201,6 @@
     padding: 0 1rem;
     margin-bottom: 0.5rem;
     background-color: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 12px;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);

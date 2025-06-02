@@ -20,6 +20,11 @@
     justify-content: flex-start;
   }
   
+  .textContainer {
+    display: inline-block;
+    text-align: center;
+  }
+  
   .title {
     font-family: var(--font-head);
     font-weight: var(--fw-black);
@@ -32,9 +37,11 @@
   
   .message {
     font-family: var(--font-body);
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     text-align: center;
     font-weight: 500;
+    display: inline-block;
+    width: 90%;
   }
   
   .heart {
@@ -43,10 +50,6 @@
     opacity: 0;
     transform: scale(0.8);
   
-    /* 
-      After appear, hearts will flicker between opacity 1 and 0.5 (not fully transparent),
-      and drift around their center.
-    */
     animation:
       appear 1.5s var(--appear-delay) ease-out forwards,
       flicker var(--flicker-dur) var(--flicker-delay) infinite ease-in-out,

@@ -176,10 +176,12 @@ export default function EmptyLeaderboard({ monthName }) {
       )}
 
       <div className={styles.content}>
-        <h2 className={styles.title}>{monthName} Leaderboard</h2>
-        <p className={styles.message}>
-          No points have been entered for this month yet...
-        </p>
+        <div className={styles.textContainer}>
+          <h2 className={styles.title}>{monthName} Leaderboard</h2>
+          <p className={styles.message}>
+            No points have been entered for this month yet...
+          </p>
+        </div>
       </div>
     </div>
   );
