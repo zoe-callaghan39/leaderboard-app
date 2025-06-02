@@ -1,7 +1,7 @@
-// src/pages/CurrentLeaderboard.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Leaderboard from "../components/Leaderboard";
+import EmptyLeaderboard from "../components/EmptyLeaderboard";
 
 const API_BASE = "https://leaderboard-app-v48a.onrender.com";
 
@@ -20,15 +20,26 @@ const monthNames = [
   "December",
 ];
 
+function getPointsFromUser(user) {
+  if (user.total_points != null) {
+    return Number(user.total_points) || 0;
+  }
+  if (user.points != null) {
+    return Number(user.points) || 0;
+  }
+  if (user.score != null) {
+    return Number(user.score) || 0;
+  }
+  return 0;
+}
+
 export default function CurrentLeaderboard() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // compute current month as e.g. "May"
   const now = new Date();
   const thisMonthName = monthNames[now.getMonth()];
 
-  // unchanged: build a cache-busting key so effect re-runs if month flips
   const currentMonthKey = `${now.getFullYear()}-${String(
     now.getMonth() + 1
   ).padStart(2, "0")}`;
@@ -40,7 +51,9 @@ export default function CurrentLeaderboard() {
     axios
       .get(`${API_BASE}/leaderboard/current?nocache=${Date.now()}`)
       .then((res) => {
-        setData(res.data || []);
+        const fetched = res.data || [];
+        console.log("[CurrentLeaderboard] fetched data:", fetched);
+        setData(fetched);
         setLoading(false);
       })
       .catch((err) => {
@@ -54,11 +67,12 @@ export default function CurrentLeaderboard() {
     return <p>Loading…</p>;
   }
 
-  if (data.length === 0) {
-    return <p>No scores have been added yet this month.</p>;
+  const hasAnyPoints = data.some((user) => getPointsFromUser(user) >= 1);
+
+  if (!hasAnyPoints) {
+    return <EmptyLeaderboard monthName={thisMonthName} />;
   }
 
-  // pass the dynamic title
   return (
     <Leaderboard
       key={currentMonthKey}
