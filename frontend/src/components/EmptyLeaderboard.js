@@ -3,7 +3,8 @@ import AnimatedBackground from "../components/AnimatedBackground";
 import styles from "./styles/EmptyLeaderboard.module.css";
 
 export default function EmptyLeaderboard({ monthName }) {
-  const [heartData, setHeartData] = useState([]);
+  const [allHearts, setAllHearts] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -126,7 +127,15 @@ export default function EmptyLeaderboard({ monthName }) {
         });
       }
 
-      setHeartData(placedHearts);
+      setAllHearts(placedHearts);
+      let idx = 0;
+      const revealInterval = setInterval(() => {
+        idx++;
+        setVisibleCount(idx);
+        if (idx >= placedHearts.length) {
+          clearInterval(revealInterval);
+        }
+      }, 200);
     }, 2000);
 
     return () => clearTimeout(timer);
@@ -136,23 +145,24 @@ export default function EmptyLeaderboard({ monthName }) {
     <div className={styles.wrapper}>
       <AnimatedBackground />
 
-      {heartData.map(
-        (
-          {
-            src,
-            leftPercent,
-            topPercent,
-            sizeVW,
-            appearDelay,
-            flickerDuration,
-            flickerDelay,
-            driftAmplitude,
-            driftDuration,
-            driftDelay,
-          },
-          idx
-        ) => {
-          return (
+      {allHearts
+        .slice(0, visibleCount)
+        .map(
+          (
+            {
+              src,
+              leftPercent,
+              topPercent,
+              sizeVW,
+              appearDelay,
+              flickerDuration,
+              flickerDelay,
+              driftAmplitude,
+              driftDuration,
+              driftDelay,
+            },
+            idx
+          ) => (
             <img
               key={idx}
               src={src}
@@ -171,9 +181,8 @@ export default function EmptyLeaderboard({ monthName }) {
               }}
               alt="broken heart"
             />
-          );
-        }
-      )}
+          )
+        )}
 
       <div className={styles.content}>
         <div className={styles.textContainer}>

@@ -41,14 +41,14 @@
     text-align: center;
     font-weight: 500;
     display: inline-block;
-    width: 90%;
+    width: 100%;
   }
   
   .heart {
     position: absolute;
     z-index: 2;
     opacity: 0;
-    transform: scale(0.8);
+    transform: translate(-50%, -50%) scale(0.8);
   
     animation:
       appear 1.5s var(--appear-delay) ease-out forwards,
@@ -59,11 +59,11 @@
   @keyframes appear {
     0% {
       opacity: 0;
-      transform: scale(0.8);
+      transform: translate(-50%, -50%) scale(0.8);
     }
     100% {
       opacity: 1;
-      transform: scale(1);
+      transform: translate(-50%, -50%) scale(1);
     }
   }
   
@@ -71,27 +71,31 @@
     0%,
     100% {
       opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
     }
     50% {
       opacity: 0.5;
+      transform: translate(-50%, -50%) scale(1);
     }
   }
   
   @keyframes drift {
     0% {
       transform: translate(
-        calc(-50% + var(--drift-amt)),
-        calc(-50% + var(--drift-amt))
-      );
+          calc(-50% + var(--drift-amt)),
+          calc(-50% + var(--drift-amt))
+        )
+        scale(1);
     }
     50% {
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%) scale(1);
     }
     100% {
       transform: translate(
-        calc(-50% - var(--drift-amt)),
-        calc(-50% - var(--drift-amt))
-      );
+          calc(-50% - var(--drift-amt)),
+          calc(-50% - var(--drift-amt))
+        )
+        scale(1);
     }
   }
   
