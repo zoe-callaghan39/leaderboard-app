@@ -10,7 +10,7 @@
   font-weight: var(--fw-black);
   font-size: min(3.5rem, 8vw);     
   letter-spacing: var(--spacing-head);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.6rem;
 }
 
 .name {
@@ -19,7 +19,7 @@
   font-size: 1.2rem;
   letter-spacing: 0;              
   text-transform: none;            
-  color: #fff;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .pointsOverlay,
@@ -28,7 +28,7 @@
   font-weight: var(--fw-bold);
   font-size: 1.125rem;
   letter-spacing: var(--spacing-nav);
-  color: #fff;
+  color: rgba(255, 255, 255, 0.8);
   font-variant-numeric: tabular-nums;
 }
 
@@ -39,7 +39,7 @@
   font-size: 1rem;
   letter-spacing: 0;
   text-transform: none;            
-  color: #fff;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .rank {
@@ -169,7 +169,7 @@
     font-weight: bold;
     text-transform: uppercase;
     font-size: 1.5rem; 
-    color: white;
+    color: rgba(255, 255, 255, 0.8);
   }
 
   .pointsOverlay {
@@ -179,7 +179,7 @@
     text-align: center;
     font-size: 1.5rem;
     font-weight: bold;
-    color: white;
+    color: rgba(255, 255, 255, 0.8);
     z-index: 2;
   }
 
@@ -218,7 +218,7 @@
     text-align: right;
     font-weight: bold;
     font-size: 1.25rem;
-    color: white;
+    color: rgba(255, 255, 255, 0.8);
   }
 
   .listAvatar {
@@ -232,13 +232,13 @@
     font-weight: bold;
     text-transform: uppercase;
     font-size: 1.3rem;
-    color: white;
+    color: rgba(255, 255, 255, 0.8);
     margin-left: 5px;
   }
 
   .listItem .points {
     font-size: 1.25rem; 
     font-weight: bold;
-    color: white;
+    color: rgba(255, 255, 255, 0.8);
   }
 }
