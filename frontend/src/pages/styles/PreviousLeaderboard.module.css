@@ -369,7 +369,6 @@
       white-space: nowrap;
     }
   
-    /* Keep the same hover/active styles for dropdown items */
     .dropdownList .dropdownItem {
       opacity: 0.9;
       transform: scale(1);
