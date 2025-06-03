@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import styles from "./styles/Navbar.module.css";
 
@@ -7,6 +7,14 @@ export default function Navbar() {
 
   const toggleMenu = () => setOpen((o) => !o);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    const iconNames = ["current", "previous", "all-time", "royal", "manage"];
+    iconNames.forEach((name) => {
+      const img = new Image();
+      img.src = `/icons/${name}.png`;
+    });
+  }, []);
 
   return (
     <nav
