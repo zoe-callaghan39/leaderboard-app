@@ -5,6 +5,7 @@ import CurrentLeaderboard from "./pages/CurrentLeaderboard";
 import AllTimeLeaderboard from "./pages/AllTimeLeaderboard";
 import PreviousLeaderboards from "./pages/PreviousLeaderboards";
 import ManageScoresPage from "./pages/ManageScoresPage";
+import SquadRoyalty from "./pages/SquadRoyalty";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/all-time" element={<AllTimeLeaderboard />} />
         <Route path="/previous" element={<PreviousLeaderboards />} />
         <Route path="/manage-scores" element={<ManageScoresPage />} />
+        <Route path="/squad-royalty" element={<SquadRoyalty />} />
       </Routes>
     </Router>
   );

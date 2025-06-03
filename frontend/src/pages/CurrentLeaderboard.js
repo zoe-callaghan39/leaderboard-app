@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Leaderboard from "../components/Leaderboard";
 import EmptyLeaderboard from "../components/EmptyLeaderboard";
+import css from "./styles/CurrentLeaderboard.module.css";
 
 const API_BASE = "https://leaderboard-app-v48a.onrender.com";
 
@@ -84,10 +85,12 @@ export default function CurrentLeaderboard() {
   }
 
   return (
-    <Leaderboard
-      key={currentMonthKey}
-      data={data}
-      title={`${thisMonthName} Leaderboard`}
-    />
+    <div className={css.pageContainer}>
+      <h2 className={css.title}>
+        {thisMonthName}
+        {"\n"}Leaderboard
+      </h2>
+      <Leaderboard key={currentMonthKey} data={data} title={null} />
+    </div>
   );
 }

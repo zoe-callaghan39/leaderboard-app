@@ -1,0 +1,503 @@
+/*    Confetti Animation  */
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+  animation: fall 4s ease-out infinite;
+  z-index: 3; 
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+  /*    Medal Shine Animation     */
+ 
+  .medalCircle::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    animation: shine 3s infinite;
+  }
+
+  @keyframes shine {
+    to {
+      left: 150%;
+    }
+  }
+
+
+.pageWrapper {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: var(--font-body);
+  color: white;
+}
+
+.loaderContainer {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  color: white;
+}
+
+.loader {
+  font-size: 1.5rem;
+  font-weight: var(--fw-semibold);
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.title,
+.subtitle {
+  margin: 0;
+  font-family: var(--font-head);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--spacing-head);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.title {
+  font-size: 3rem;
+  margin-top: 60px;
+  margin-bottom: 1rem;
+  opacity: 1;       
+  transform: none;   
+  font-family: var(--font-head);
+  font-weight: var(--fw-black);
+  letter-spacing: var(--spacing-head);
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.plaque {
+  display: flex;
+  align-items: center;
+  background: rgba(173, 216, 230, 0.3); 
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 0.75rem 1rem;
+  width: 220px;
+}
+
+.medalCircle {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.75rem;
+  color: white;
+  font-weight: 800;
+  position: relative;   
+  overflow: hidden;   
+}
+
+.medalNumber {
+  font-size: 1rem;
+  font-family: var(--font-head);
+  font-weight: 800;
+}
+
+.plaqueText {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.plaqueName {
+  font-family: var(--font-head);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  font-size: 1.2rem;
+}
+
+.plaqueRole {
+  font-family: var(--font-head);
+  font-weight: var(--fw-semibold);
+  font-size: 0.9rem;
+  margin-top: 2px;
+}
+
+.plaquePoints {
+  font-family: var(--font-head);
+  font-weight: var(--fw-regular);
+  font-size: 0.85rem;
+  margin-top: 2px;
+}
+
+.avatarWrapper {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 0.25rem;
+}
+
+.singleAvatar,
+.smallAvatar {
+  object-fit: cover;
+}
+
+.podiumNumber {
+  display: none;
+}
+
+.mobileContent,
+.mobileInfo {
+  display: none;
+}
+
+/*   Mobile Styles */
+@media (max-width: 768px) {
+  .content {
+    padding: 1rem;
+    padding-top: 50px; 
+  }
+
+  .title {
+    font-size: 2rem;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    opacity: 1;      
+    transform: none;  
+    font-family: var(--font-head);
+    font-weight: var(--fw-black);
+    letter-spacing: var(--spacing-head);
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.25rem;
+    opacity: 1; 
+    transform: none;
+  }
+
+  .podiumContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 450px; 
+    margin-bottom: 0.5rem;
+  }
+
+  .podiumBlock1,
+  .podiumBlock2,
+  .podiumBlock3 {
+    position: absolute;
+    bottom: 0;
+    border-radius: 16px 16px 0 0;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transform: translateY(250px);
+    opacity: 0;
+    transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .podiumBlock3 {
+    width: 30%;
+    left: 70%;
+    height: 100px; 
+    background: rgba(255, 255, 255, 0.15);
+  }
+  .podiumBlock2 {
+    width: 30%;
+    left: 0%;
+    height: 120px; 
+    background: rgba(255, 255, 255, 0.20);
+  }
+  .podiumBlock1 {
+    width: 40%;
+    left: 30%;
+    height: 160px; 
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .podiumBlock1 .mobileContent,
+  .podiumBlock2 .mobileContent,
+  .podiumBlock3 .mobileContent {
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 10px;
+    width: 100%;
+  }
+  .mobilePoints {
+    font-family: var(--font-head);
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 10px;
+    font-weight: 800;
+  }
+
+  .winnerCard {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 3;
+  }
+
+  .pos1 {
+    bottom: 180px;
+    transform: translateX(-50%) translateY(40px);
+  }
+
+  .pos2 {
+    bottom: 150px;
+    left: 5%;
+    transform: translateX(-50%) translateY(40px);
+  }
+
+  .pos3 {
+    bottom: 130px;
+    left: 75%;
+    transform: translateX(-50%) translateY(40px);
+  }
+
+  .pos1 .singleAvatar {
+    width: 160px;
+  }
+  .pos2 .singleAvatar {
+    width: 80px;
+  }
+  .pos3 .singleAvatar {
+    width: 80px;
+  }
+  .smallAvatar {
+    width: 48px;
+  }
+
+  .winnerCard .plaque {
+    display: none;
+  }
+  .mobileInfo {
+    font-family: var(--font-head);
+    display: block; 
+    color: white;
+    text-align: center;
+    margin-top: 4px;
+  }
+  .plaqueName {
+    font-family: var(--font-head);
+    font-size: 1.2rem; 
+    line-height: 1.1;
+  }
+  .plaqueRole {
+    font-size: 0.75rem;
+    margin-top: 1px;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: var(--font-head);
+    font-weight: var(--fw-semibold);
+  }
+  .plaquePoints {
+    font-size: 0.7rem;
+    margin-top: 1px;
+  }
+
+  .podiumNumber {
+    top: -24px;
+    font-size: 1.25rem;
+  }
+}
+
+/*   Desktop Styles */
+@media (min-width: 769px) {
+  .content {
+    padding: 2rem;
+  }
+
+  .title {
+    font-size: 3rem;
+    margin-top: 40px;
+    opacity: 1;      
+    transform: none; 
+    font-family: var(--font-head);
+    font-weight: var(--fw-black);
+    letter-spacing: var(--spacing-head);
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  .subtitle {
+    font-size: 1.25rem;
+    opacity: 1;
+    transform: none;
+  }
+
+  .podiumContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 680px; 
+    margin-bottom: 1rem;
+  }
+
+  .podiumBlock1,
+  .podiumBlock2,
+  .podiumBlock3 {
+    position: absolute;
+    bottom: 0;
+    border-radius: 16px 16px 0 0;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transform: translateY(350px);
+    opacity: 0;
+    transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .podiumBlock3 {
+    width: 16%;
+    left: 62%;
+    height: 140px;
+    background: rgba(255, 255, 255, 0.15);
+  }
+  .podiumBlock2 {
+    width: 16%;
+    left: 22%;
+    height: 170px;
+    background: rgba(255, 255, 255, 0.20);
+  }
+  .podiumBlock1 {
+    width: 24%;
+    left: 38%;
+    height: 240px;
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .winnerCard {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 3;
+  }
+
+  .pos1 {
+    bottom: 300px;
+    transform: translateX(-50%) translateY(50px);
+  }
+  .pos2 {
+    bottom: 260px;
+    left: 17%;
+    transform: translateX(-50%) translateY(50px);
+  }
+
+  .pos3 {
+    bottom: 230px;
+    left: 63%;
+    transform: translateX(-50%) translateY(50px);
+  }
+
+  .pos1 .singleAvatar {
+    width: 180px; 
+  }
+  .pos2 .singleAvatar {
+    width: 90px;
+  }
+  .pos3 .singleAvatar {
+    width: 90px;
+  }
+  .smallAvatar {
+    width: 80px;
+  }
+
+  .plaque {
+    width: 220px;
+    padding: 0.75rem 1rem;
+    background: rgba(173, 216, 230, 0.3);
+  }
+  .medalCircle {
+    width: 40px;
+    height: 40px;
+  }
+  .medalNumber {
+    font-size: 1.1rem;
+  }
+  .plaqueName {
+    font-size: 1.2rem;
+  }
+  .plaqueRole {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: var(--font-head);
+    font-weight: var(--fw-semibold);
+  }
+  .plaquePoints {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: var(--font-head);
+    font-weight: var(--fw-semibold);
+  }
+
+  .podiumNumber {
+    top: -36px;
+    font-size: 2rem;
+  }
+
+  .medalCircle::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    animation: shine 3s infinite;
+  }
+
+  @keyframes shine {
+    to {
+      left: 150%;
+    }
+  }
+}

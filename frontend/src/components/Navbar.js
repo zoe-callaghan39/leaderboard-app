@@ -63,6 +63,17 @@ export default function Navbar() {
         </NavLink>
 
         <NavLink
+          to="/squad-royalty"
+          className={({ isActive }) =>
+            [styles.link, isActive && styles.active].filter(Boolean).join(" ")
+          }
+          onClick={handleClose}
+        >
+          <img src="/icons/royal.png" alt="" className={styles.icon} />
+          Squad Royalty
+        </NavLink>
+
+        <NavLink
           to="/manage-scores"
           className={({ isActive }) =>
             [styles.link, isActive && styles.active].filter(Boolean).join(" ")
