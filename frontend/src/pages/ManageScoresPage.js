@@ -30,7 +30,8 @@ export default function ManageScoresPage() {
   useEffect(() => {
     fetch(`${API_BASE}/users`)
       .then((res) => res.json())
-      .then(setUsers);
+      .then(setUsers)
+      .catch(console.error);
   }, []);
 
   useEffect(() => {
@@ -45,40 +46,80 @@ export default function ManageScoresPage() {
     document.body.addEventListener("click", onBodyClick);
     return () => document.body.removeEventListener("click", onBodyClick);
   }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setPointsMessage("");
+
     const num = parseInt(points, 10);
     if (!selectedUser || isNaN(num)) {
       return setPointsMessage("Please select a user and enter valid points.");
     }
 
-    const adjusted = action === "remove" ? -num : num;
-    const res = await fetch(`${API_BASE}/add-points`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: selectedUser, points: adjusted }),
-    });
+    if (action === "remove") {
+      try {
+        const resp = await fetch(`${API_BASE}/leaderboard/current`);
+        if (!resp.ok) throw new Error("Could not fetch current totals");
+        const data = await resp.json(); 
+        const entry = data.find((row) => row.name === selectedUser);
+        const currentPoints = entry ? parseInt(entry.total_points, 10) || 0 : 0;
 
-    if (res.ok) {
-      const verb = num === 1 ? "has" : "have";
-      if (action === "add") {
-        setPointsMessage(
-          `${num} point${
-            num !== 1 ? "s" : ""
-          } ${verb} been added to ${capitalize(selectedUser)}.`
-        );
-      } else {
-        setPointsMessage(
-          `${num} point${
-            num !== 1 ? "s" : ""
-          } ${verb} been removed from ${capitalize(selectedUser)}.`
+        if (num > currentPoints) {
+          const attemptedLabel = num === 1 ? "point" : "points";
+          if (currentPoints === 0) {
+            return setPointsMessage(
+              `Unable to remove ${num} ${attemptedLabel}, as ${capitalize(
+                selectedUser
+              )} has 0 points.`
+            );
+          } else {
+            const haveLabel = currentPoints === 1 ? "point" : "points";
+            return setPointsMessage(
+              `Unable to remove ${num} ${attemptedLabel}, as ${capitalize(
+                selectedUser
+              )} only has ${currentPoints} ${haveLabel}.`
+            );
+          }
+        }
+      } catch (err) {
+        console.error(err);
+        return setPointsMessage(
+          "Error checking user’s current points. Please try again."
         );
       }
-      setPoints("");
-    } else {
-      const data = await res.json();
-      setPointsMessage(data.message || "Error updating points.");
+    }
+
+    const adjusted = action === "remove" ? -num : num;
+    try {
+      const res = await fetch(`${API_BASE}/add-points`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: selectedUser, points: adjusted }),
+      });
+
+      if (res.ok) {
+        const verb = num === 1 ? "has" : "have";
+        if (action === "add") {
+          setPointsMessage(
+            `${num} point${
+              num !== 1 ? "s" : ""
+            } ${verb} been added to ${capitalize(selectedUser)}.`
+          );
+        } else {
+          setPointsMessage(
+            `${num} point${
+              num !== 1 ? "s" : ""
+            } ${verb} been removed from ${capitalize(selectedUser)}.`
+          );
+        }
+        setPoints("");
+      } else {
+        const data = await res.json();
+        setPointsMessage(data.error || "Error updating points.");
+      }
+    } catch (err) {
+      console.error(err);
+      setPointsMessage("Network error. Please try again.");
     }
   };
 
@@ -88,20 +129,25 @@ export default function ManageScoresPage() {
     if (!newUserName) {
       return setAddMessage("Please enter a user name.");
     }
-    const res = await fetch(`${API_BASE}/add-points`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: newUserName, points: 0 }),
-    });
-    if (res.ok) {
-      setAddMessage(
-        `${capitalize(newUserName)} has been added to the leaderboard.`
-      );
-      setNewUserName("");
-      setUsers((prev) => [...prev, { name: newUserName }]);
-    } else {
-      const data = await res.json();
-      setAddMessage(data.message || "User could not be added.");
+    try {
+      const res = await fetch(`${API_BASE}/add-points`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newUserName, points: 0 }),
+      });
+      if (res.ok) {
+        setAddMessage(
+          `${capitalize(newUserName)} has been added to the leaderboard.`
+        );
+        setNewUserName("");
+        setUsers((prev) => [...prev, { name: newUserName }]);
+      } else {
+        const data = await res.json();
+        setAddMessage(data.error || "User could not be added.");
+      }
+    } catch (err) {
+      console.error(err);
+      setAddMessage("Network error. Please try again.");
     }
   };
 
@@ -111,22 +157,27 @@ export default function ManageScoresPage() {
     if (!removeUserName) {
       return setRemoveMessage("Select a user to remove.");
     }
-    const res = await fetch(`${API_BASE}/users/remove`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: removeUserName }),
-    });
-    if (res.ok) {
-      setRemoveMessage(
-        `${capitalize(
-          removeUserName
-        )} has been removed from the upcoming leaderboards.`
-      );
-      setRemoveUserName("");
-      setUsers((prev) => prev.filter((u) => u.name !== removeUserName));
-    } else {
-      const data = await res.json();
-      setRemoveMessage(data.message || "User could not be removed.");
+    try {
+      const res = await fetch(`${API_BASE}/users/remove`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: removeUserName }),
+      });
+      if (res.ok) {
+        setRemoveMessage(
+          `${capitalize(
+            removeUserName
+          )} has been removed from the upcoming leaderboards.`
+        );
+        setRemoveUserName("");
+        setUsers((prev) => prev.filter((u) => u.name !== removeUserName));
+      } else {
+        const data = await res.json();
+        setRemoveMessage(data.error || "User could not be removed.");
+      }
+    } catch (err) {
+      console.error(err);
+      setRemoveMessage("Network error. Please try again.");
     }
   };
 
@@ -196,6 +247,7 @@ export default function ManageScoresPage() {
               value={points}
               onChange={(e) => setPoints(e.target.value)}
             />
+
             <div className={styles.toggleGroupContainer}>
               <div
                 className={`

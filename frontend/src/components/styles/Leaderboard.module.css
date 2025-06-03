@@ -91,6 +91,11 @@
     .topUser.duo .name {
       font-size: 1.25rem;
     }
+
+    .topUser.pos1.duo .name {
+      font-size: 1.75rem;    
+      margin-top: -40px;   
+    }
   
     .name {
       font-family: var(--font-head);
@@ -115,13 +120,36 @@
   
     .smallAvatar {
       height: 100px;
-      width: 100px;
     }
   
     .pos1 .avatarWrapper img:not(.smallAvatar) {
       height: 280px;
       position: relative;
       top: 60px;
+    }
+
+    .topUser.pos1.duo {
+      width: auto;
+      left: 50%;
+      transform: translateX(-50%);
+      overflow: visible;
+      bottom: 140px;
+    }
+    
+    .topUser.pos1.duo .avatarWrapper {
+      align-items: flex-end; 
+      gap: 0;                
+      overflow: visible;    
+    }
+    
+    .topUser.pos1.duo .avatarWrapper img.smallAvatar {
+      height: 240px;
+      width: 200px;
+      position: static; 
+    }
+
+    .topUser.pos1.duo .avatarWrapper img.smallAvatar + img.smallAvatar {
+      margin-left: -90px;           
     }
   
     .pos2 .avatarWrapper img:not(.smallAvatar) {
@@ -130,6 +158,28 @@
   
     .pos3 .avatarWrapper img:not(.smallAvatar) {
       height: 100px;
+    }
+
+    .topUser.pos2.duo {
+      overflow: visible; 
+      width: auto;       
+    }
+    
+    .topUser.pos2.duo .avatarWrapper {
+      overflow: visible;    
+      align-items: flex-end;
+      gap: 4px;           
+    }
+    
+    .topUser.pos3.duo {
+      overflow: visible;
+      width: auto;
+    }
+    
+    .topUser.pos3.duo .avatarWrapper {
+      overflow: visible;
+      align-items: flex-end;
+      gap: 4px;
     }
   
     .pointsOverlay {
@@ -308,6 +358,14 @@
     .topUser.duo .name {
       font-size: 1.125rem;
     }
+
+    .topUser.pos1.duo .name {
+      font-size: 1.5rem;    
+      margin-top: -50px;    
+      max-width: 120px;      
+      white-space: normal;   
+      text-align: center;
+    }
   
     .avatarWrapper {
       position: relative;
@@ -331,7 +389,30 @@
       position: relative;
       top: 80px;
     }
-  
+
+    .topUser.pos1.duo {
+      bottom: 70px;
+      width: auto;
+      left: 50%;
+      transform: translateX(-50%);
+      overflow: visible;
+    }
+    
+    .topUser.pos1.duo .avatarWrapper {
+      align-items: flex-end; 
+      gap: 0px;              
+      overflow: visible;  
+    }
+    
+    .topUser.pos1.duo .avatarWrapper img.smallAvatar {
+      height: 200px;
+      position: static; 
+    }
+
+    .topUser.pos1.duo .avatarWrapper img.smallAvatar + img.smallAvatar {
+      margin-left: -65px;            
+    }
+
     .pos2 .avatarWrapper img:not(.smallAvatar) {
       height: 100px;
     }

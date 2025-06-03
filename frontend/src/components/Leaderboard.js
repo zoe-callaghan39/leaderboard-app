@@ -3,7 +3,9 @@ import styles from "./styles/Leaderboard.module.css";
 import AnimatedBackground from "./AnimatedBackground";
 
 export default function Leaderboard({ data, title }) {
-  const groupsByPoints = data.reduce((acc, u) => {
+  const filteredData = data.filter((u) => u.total_points > 0);
+
+  const groupsByPoints = filteredData.reduce((acc, u) => {
     acc[u.total_points] = acc[u.total_points] || [];
     acc[u.total_points].push(u);
     return acc;
