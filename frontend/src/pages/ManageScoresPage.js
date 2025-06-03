@@ -60,7 +60,7 @@ export default function ManageScoresPage() {
       try {
         const resp = await fetch(`${API_BASE}/leaderboard/current`);
         if (!resp.ok) throw new Error("Could not fetch current totals");
-        const data = await resp.json(); 
+        const data = await resp.json();
         const entry = data.find((row) => row.name === selectedUser);
         const currentPoints = entry ? parseInt(entry.total_points, 10) || 0 : 0;
 
@@ -184,10 +184,9 @@ export default function ManageScoresPage() {
   return (
     <div className={styles.container}>
       <AnimatedBackground />
+      <h2 className={styles.title}>Manage Scores</h2>
 
       <div className={styles.inner}>
-        <h2 className={styles.title}>Manage Scores</h2>
-
         <div className={styles.section}>
           <div className={styles.sectionHeader}>
             <h4 className={styles.sectionTitle}>Manage Points</h4>

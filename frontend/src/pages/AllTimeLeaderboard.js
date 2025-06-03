@@ -30,7 +30,7 @@ export default function AllTimeLeaderboard() {
   }, [data]);
 
   return (
-    <div>
+    <div className={css.pageContainer}>
       <h2 className={css.title}>All Time{"\n"}Leaderboard</h2>
       <Leaderboard data={data} title={null} />
     </div>

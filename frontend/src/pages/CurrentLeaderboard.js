@@ -77,10 +77,6 @@ export default function CurrentLeaderboard() {
     });
   }, [data]);
 
-  if (loading) {
-    return <p>Loading…</p>;
-  }
-
   const hasAnyPoints = data.some((user) => getPointsFromUser(user) >= 1);
 
   if (!hasAnyPoints) {

@@ -10,17 +10,17 @@
       margin: 0 auto;
       padding: 2rem;
     }
-  
+
     .title {
       font-family: var(--font-head);
       font-weight: var(--fw-black);
       font-size: 3rem;
       letter-spacing: var(--spacing-head);
-      margin-bottom: 2rem;
-      color: white;
       text-transform: uppercase;
+      color: white;
       text-align: center;
       margin-top: 40px;
+      margin-bottom: 2rem;
     }
   
     .topThree {
@@ -278,14 +278,15 @@
     }
   
     .title {
-      margin-bottom: 30px;
+      font-family: var(--font-head);
+      font-weight: var(--fw-black);
       font-size: 2rem;
-      text-align: center;
-      font-weight: bold;
+      letter-spacing: var(--spacing-head);
       text-transform: uppercase;
       color: white;
-      font-weight: var(--fw-black);
+      text-align: center;
       margin-top: 40px;
+      margin-bottom: 30px;
     }
   
     .topThree {
