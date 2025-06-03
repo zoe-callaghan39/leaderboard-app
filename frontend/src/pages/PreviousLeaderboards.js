@@ -46,6 +46,20 @@ export default function PreviousLeaderboards() {
   }, [selectedMonth]);
 
   useEffect(() => {
+    if (!leaderboard || leaderboard.length === 0) return;
+
+    leaderboard.forEach((user) => {
+      const lower = user.name.toLowerCase();
+
+      const img = new Image();
+      img.src = `/avatars/${lower}.png`;
+
+      const crownImg = new Image();
+      crownImg.src = `/crown-avatars/${lower}-crown.png`;
+    });
+  }, [leaderboard]);
+
+  useEffect(() => {
     const onBodyClick = (e) => {
       if (ref.current && !ref.current.contains(e.target)) {
         setOpen(false);

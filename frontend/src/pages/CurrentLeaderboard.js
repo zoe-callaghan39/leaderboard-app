@@ -63,6 +63,20 @@ export default function CurrentLeaderboard() {
       });
   }, [currentMonthKey]);
 
+  useEffect(() => {
+    if (!data || data.length === 0) return;
+
+    data.forEach((user) => {
+      const lower = user.name.toLowerCase();
+
+      const img = new Image();
+      img.src = `/avatars/${lower}.png`;
+
+      const crownImg = new Image();
+      crownImg.src = `/crown-avatars/${lower}-crown.png`;
+    });
+  }, [data]);
+
   if (loading) {
     return <p>Loading…</p>;
   }
