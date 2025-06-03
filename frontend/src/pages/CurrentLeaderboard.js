@@ -3,6 +3,7 @@ import axios from "axios";
 import Leaderboard from "../components/Leaderboard";
 import EmptyLeaderboard from "../components/EmptyLeaderboard";
 import css from "./styles/CurrentLeaderboard.module.css";
+import AnimatedBackground from "../components/AnimatedBackground";
 
 const API_BASE = "https://leaderboard-app-v48a.onrender.com";
 
@@ -79,6 +80,10 @@ export default function CurrentLeaderboard() {
   }, [data]);
 
   const hasAnyPoints = data.some((user) => getPointsFromUser(user) >= 1);
+
+  if (loading) {
+    return <AnimatedBackground />;
+  }
 
   if (!hasAnyPoints) {
     return <EmptyLeaderboard monthName={thisMonthName} />;

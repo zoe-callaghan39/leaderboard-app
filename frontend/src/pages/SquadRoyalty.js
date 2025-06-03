@@ -127,11 +127,7 @@ export default function SquadRoyalty() {
   }, [loading, podiumMap]);
 
   if (loading) {
-    return (
-      <div className={styles.loaderContainer}>
-        <AnimatedBackground />
-      </div>
-    );
+    return <AnimatedBackground />;
   }
 
   const getMedalColor = (pos) => {
