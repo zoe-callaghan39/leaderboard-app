@@ -77,7 +77,11 @@ export default function Navbar() {
           }
           onClick={handleClose}
         >
-          <img src="/icons/royal.png" alt="" className={styles.icon} />
+          <img
+            src="/icons/royal.png"
+            alt=""
+            className={`${styles.icon} ${styles.royalIcon}`}
+          />
           Squad Royalty
         </NavLink>
 
