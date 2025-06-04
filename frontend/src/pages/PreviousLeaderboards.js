@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import html2canvas from "html2canvas";
 import styles from "./styles/PreviousLeaderboard.module.css";
 import AnimatedBackground from "../components/AnimatedBackground";
 import Leaderboard from "../components/Leaderboard";
@@ -17,7 +18,9 @@ export default function PreviousLeaderboards() {
   const [selectedMonth, setSelectedMonth] = useState(null);
   const [leaderboard, setLeaderboard] = useState([]);
   const [open, setOpen] = useState(false);
-  const ref = useRef();
+
+  const [isClicked, setIsClicked] = useState(false);
+  const pageRef = useRef(null);
 
   useEffect(() => {
     fetch(`${API_BASE}/all-months?nocache=${Date.now()}`)
@@ -47,13 +50,10 @@ export default function PreviousLeaderboards() {
 
   useEffect(() => {
     if (!leaderboard || leaderboard.length === 0) return;
-
     leaderboard.forEach((user) => {
       const lower = user.name.toLowerCase();
-
       const img = new Image();
       img.src = `/avatars/${lower}.png`;
-
       const crownImg = new Image();
       crownImg.src = `/crown-avatars/${lower}-crown.png`;
     });
@@ -61,7 +61,7 @@ export default function PreviousLeaderboards() {
 
   useEffect(() => {
     const onBodyClick = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) {
+      if (pageRef.current && !pageRef.current.contains(e.target)) {
         setOpen(false);
       }
     };
@@ -69,14 +69,52 @@ export default function PreviousLeaderboards() {
     return () => document.body.removeEventListener("click", onBodyClick);
   }, []);
 
+  const handleScreenshot = () => {
+    setIsClicked(true);
+    setTimeout(() => setIsClicked(false), 600);
+
+    const docEl = document.documentElement;
+    const fullWidth = docEl.scrollWidth;
+    const fullHeight = docEl.scrollHeight;
+    const containerEl = pageRef.current;
+    const cropHeight = containerEl ? containerEl.scrollHeight : fullHeight;
+
+    html2canvas(docEl, {
+      useCORS: true,
+      logging: false,
+
+      windowWidth: fullWidth,
+      windowHeight: fullHeight,
+
+      scrollX: 0,
+      scrollY: 0,
+      width: fullWidth,
+      height: cropHeight,
+
+      ignoreElements: (el) => el.tagName?.toLowerCase() === "noscript",
+    })
+      .then((canvas) => {
+        const dataURL = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.href = dataURL;
+        link.download = "leaderboard_screenshot.png";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      })
+      .catch((err) => {
+        console.error("⚠️ Failed to generate screenshot:", err);
+      });
+  };
+
   return (
     <div style={{ position: "relative", minHeight: "100vh" }}>
       <AnimatedBackground />
 
-      <div className={styles.container}>
+      <div ref={pageRef} className={styles.container}>
         <h2 className={styles.title}>Previous Leaderboards</h2>
 
-        <div className={styles.monthSelector} ref={ref}>
+        <div className={styles.monthSelector} ref={pageRef}>
           {selectedMonth && (
             <button
               className={
@@ -128,6 +166,20 @@ export default function PreviousLeaderboards() {
           <Leaderboard key={selectedMonth} data={leaderboard} title={null} />
         )}
       </div>
+
+      <button
+        className={`${styles.screenshotButton} ${
+          isClicked ? styles.clicked : ""
+        }`.trim()}
+        onClick={handleScreenshot}
+        title="Download full‐page screenshot"
+      >
+        <img
+          src="/icons/screenshot.png"
+          alt="Screenshot"
+          className={styles.screenshotIcon}
+        />
+      </button>
     </div>
   );
 }

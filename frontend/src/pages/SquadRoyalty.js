@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import AnimatedBackground from "../components/AnimatedBackground";
 import styles from "./styles/SquadRoyalty.module.css";
+import html2canvas from "html2canvas";
 
 const API_BASE = "https://leaderboard-app-v48a.onrender.com";
 
@@ -9,6 +10,9 @@ export default function SquadRoyalty() {
   const [podiumMap, setPodiumMap] = useState({ 1: [], 2: [], 3: [] });
   const [loading, setLoading] = useState(true);
   const [monthLabel, setMonthLabel] = useState("");
+
+  const [isClicked, setIsClicked] = useState(false);
+  const wrapperRef = useRef(null);
 
   function getLastMonthKeyAndLabel() {
     const now = new Date();
@@ -38,7 +42,6 @@ export default function SquadRoyalty() {
         }
 
         const filtered = data.filter((u) => Number(u.total_points) > 0);
-
         const groupsByPoints = filtered.reduce((acc, u) => {
           const pts = Number(u.total_points);
           acc[pts] = acc[pts] || [];
@@ -136,11 +139,61 @@ export default function SquadRoyalty() {
     return "rgba(205,127,50,1)";
   };
 
+  const handleScreenshot = () => {
+    setIsClicked(true);
+    setTimeout(() => setIsClicked(false), 600);
+
+    const origConfetti = Array.from(
+      document.getElementsByClassName(styles.confetti)
+    );
+
+    const wrapperEl = wrapperRef.current;
+    if (!wrapperEl) return;
+
+    html2canvas(wrapperEl, {
+      useCORS: true,
+      logging: false,
+      scrollX: 0,
+      scrollY: 0,
+      onclone: (clonedDoc) => {
+        const clonedConfetti = Array.from(
+          clonedDoc.getElementsByClassName(styles.confetti)
+        );
+
+        clonedConfetti.forEach((cloneEl, idx) => {
+          const origEl = origConfetti[idx];
+          if (!origEl) return;
+          const cs = window.getComputedStyle(origEl);
+
+          cloneEl.style.animation = "none";
+          cloneEl.style.transform = cs.transform;
+          cloneEl.style.opacity = cs.opacity;
+          cloneEl.style.backgroundColor = cs.backgroundColor;
+          cloneEl.style.width = cs.width;
+          cloneEl.style.height = cs.height;
+        });
+      },
+      ignoreElements: (el) => el.tagName?.toLowerCase() === "noscript",
+    })
+      .then((canvas) => {
+        const dataURL = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.href = dataURL;
+        link.download = "leaderboard_screenshot.png";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      })
+      .catch((err) => {
+        console.error("⚠️ Failed to generate screenshot:", err);
+      });
+  };
+
   return (
-    <div className={styles.pageWrapper}>
+    <div ref={wrapperRef} className={styles.pageWrapper}>
       <AnimatedBackground />
 
-      {Array.from({ length: 100 }).map((_, i) => {
+      {Array.from({ length: 130 }).map((_, i) => {
         const colors = [
           "#FFD700",
           "#C0C0C0",
@@ -297,6 +350,20 @@ export default function SquadRoyalty() {
           })}
         </div>
       </div>
+
+      <button
+        className={`${styles.screenshotButton} ${
+          isClicked ? styles.clicked : ""
+        }`.trim()}
+        onClick={handleScreenshot}
+        title="Download full‐page screenshot"
+      >
+        <img
+          src="/icons/screenshot.png"
+          alt="Screenshot"
+          className={styles.screenshotIcon}
+        />
+      </button>
     </div>
   );
 }
