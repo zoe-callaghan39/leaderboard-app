@@ -193,7 +193,7 @@ export default function SquadRoyalty() {
     <div ref={wrapperRef} className={styles.pageWrapper}>
       <AnimatedBackground />
 
-      {Array.from({ length: 130 }).map((_, i) => {
+      {Array.from({ length: 100 }).map((_, i) => {
         const colors = [
           "#FFD700",
           "#C0C0C0",
