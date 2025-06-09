@@ -2,6 +2,7 @@ name: Update Social Preview
 
 on:
   schedule:
+    # Every day at 00:30 UTC
     - cron: "30 0 * * *"
 
 jobs:
@@ -9,27 +10,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1) Checkout the code
       - uses: actions/checkout@v3
 
+      # 2) Set up Node
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
+      # 3) Install dependencies
       - name: Install dependencies
         run: npm ci
 
+      # 4) Generate the fresh social-preview.png
       - name: Generate new social-preview.png
         run: npm run generate-preview
 
+      # 5) Commit & push the updated image
       - name: Commit & push updated image
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add public/social-preview.png
           if ! git diff --staged --quiet; then
-            git commit -m "chore: auto-update social preview"
+            git commit -m "chore: auto-update social preview image"
             git push
           else
             echo "No changes to social-preview.png"
+          fi
+
+      # 6) Bump the OG cache-buster version in index.html
+      - name: Bump OG image cache-bust
+        run: |
+          TS=$(date +%s)
+          sed -i "s|social-preview.png?v=[0-9]*|social-preview.png?v=${TS}|g" public/index.html
+          git add public/index.html
+          if ! git diff --staged --quiet; then
+            git commit -m "ci: bump OG image version to ${TS}"
+            git push
+          else
+            echo "No changes to index.html"
           fi

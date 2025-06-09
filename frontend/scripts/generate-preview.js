@@ -75,9 +75,5 @@ const EXTRA_OFFSET = 5;
   });
 
   await browser.close();
-  console.log("✅ social-preview.png updated (clipped below nav)", {
-    width: CARD_WIDTH,
-    height: CARD_HEIGHT,
-    offsetY: navHeight + EXTRA_OFFSET,
-  });
+  console.log("✅ social-preview.png updated");
 })();
