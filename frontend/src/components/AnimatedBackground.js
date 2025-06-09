@@ -1,11 +1,9 @@
-// src/components/AnimatedBackground.js
 import React, { useEffect, useRef } from "react";
 import "./styles/AnimatedBackground.css";
 
 export default function AnimatedBackground() {
   const containerRef = useRef(null);
 
-  // helper to spawn static particles
   const createParticles = (container, count) => {
     const rect = container.getBoundingClientRect();
     for (let i = 0; i < count; i++) {
@@ -32,7 +30,6 @@ export default function AnimatedBackground() {
     }
   };
 
-  // interactive particles follow pointer
   const createInteractive = (container, count) => {
     const rect = container.getBoundingClientRect();
     let mouseX = rect.width / 2,
@@ -85,11 +82,11 @@ export default function AnimatedBackground() {
 
   useEffect(() => {
     const root = containerRef.current;
-    // gradient
+
     const grad = document.createElement("div");
     grad.className = "gradient-bg";
     root.appendChild(grad);
-    // waves
+
     const waveWrap = document.createElement("div");
     waveWrap.className = "wave-container";
     [0, 1, 2].forEach(() => {
@@ -98,7 +95,7 @@ export default function AnimatedBackground() {
       waveWrap.appendChild(w);
     });
     root.appendChild(waveWrap);
-    // glows
+
     const glow1 = document.createElement("div");
     glow1.className = "glow";
     Object.assign(glow1.style, {
@@ -116,16 +113,13 @@ export default function AnimatedBackground() {
     glow2.style.background =
       "radial-gradient(circle, rgba(37,99,235,0.4) 0%, rgba(30,64,175,0.1) 70%)";
     root.append(glow1, glow2);
-    // static particles
     const particleWrap = document.createElement("div");
     particleWrap.className = "particles-container";
     root.appendChild(particleWrap);
     createParticles(particleWrap, 50);
-    // interactive
     createInteractive(particleWrap, 15);
 
     return () => {
-      // cleanup on unmount
       root.innerHTML = "";
     };
   }, []);

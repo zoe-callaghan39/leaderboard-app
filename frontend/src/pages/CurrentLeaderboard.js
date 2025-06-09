@@ -138,6 +138,7 @@ export default function CurrentLeaderboard() {
       </div>
 
       <button
+        id="screenshot-button"
         className={`${css.screenshotButton} ${
           isClicked ? css.clicked : ""
         }`.trim()}
