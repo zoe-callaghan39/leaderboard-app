@@ -2,8 +2,8 @@ name: Update Social Preview
 
 on:
   schedule:
-    # Every day at 00:30 UTC
-    - cron: "30 0 * * *"
+    # At minute 0 past hours 8, 10, 12, 14, 16 UTC every day
+    - cron: "0 8,10,12,14,16 * * *"
 
 jobs:
   build-and-screenshot:
