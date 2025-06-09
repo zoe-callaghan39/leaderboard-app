@@ -129,7 +129,7 @@ export default function CurrentLeaderboard() {
 
   return (
     <>
-      <div ref={pageRef} className={css.pageContainer}>
+      <div ref={pageRef} id="social-preview" className={css.pageContainer}>
         <h2 className={css.title}>
           {thisMonthName}
           {"\n"}Leaderboard
