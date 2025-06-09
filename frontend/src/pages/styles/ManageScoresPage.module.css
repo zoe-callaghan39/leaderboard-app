@@ -351,7 +351,6 @@
     font-family: var(--font-head);
     font-weight: var(--fw-semibold);
     font-size: 1.25rem;
-    margin-bottom: 1.5rem;
   }
 
   .form {
@@ -437,7 +436,6 @@
   .monthSelector {
     position: relative;
     display: inline-block;
-    margin-bottom: 1.5rem;
     width: 100%;
     text-align: center;
     z-index: 20;
