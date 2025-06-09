@@ -75,6 +75,8 @@
     color: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(8px);
     font-size: 1rem;
+    font-family: var(--font-body);
+    font-weight: var(--fw-semibold);
   }
   .input::placeholder {
     color: rgba(255, 255, 255, 0.6);
@@ -123,7 +125,6 @@
   .monthSelector {
     position: relative;
     display: inline-block;
-    margin-bottom: 1rem;
     width: 100%;
     text-align: center;
     z-index: 20;
@@ -136,7 +137,7 @@
     font-size: 1rem;
     line-height: 1.5;
     border: none;
-    border-radius: 12px;
+    border-radius: 8px;
     cursor: pointer;
     background-color: rgba(255, 255, 255, 0.15);
     color: rgba(255, 255, 255, 0.8);
@@ -379,6 +380,8 @@
     backdrop-filter: blur(10px);
     font-size: 1.125rem;
     -moz-appearance: textfield;
+    font-family: var(--font-body);
+    font-weight: var(--fw-semibold);
   }
 
   .input::-webkit-outer-spin-button,
@@ -447,10 +450,10 @@
     font-size: 1.125rem;
     line-height: 1.5;
     border: none;
-    border-radius: 12px;
+    border-radius: 8px;
     cursor: pointer;
     background-color: rgba(255, 255, 255, 0.15);
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.8);
     text-transform: none;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);

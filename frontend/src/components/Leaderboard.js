@@ -2,8 +2,19 @@ import React from "react";
 import styles from "./styles/Leaderboard.module.css";
 import AnimatedBackground from "./AnimatedBackground";
 
+function getPointsFromUser(user) {
+  if (user.total_points != null) return Number(user.total_points) || 0;
+  if (user.points != null) return Number(user.points) || 0;
+  if (user.score != null) return Number(user.score) || 0;
+  return 0;
+}
+
 export default function Leaderboard({ data, title }) {
-  const filteredData = data.filter((u) => u.total_points > 0);
+  const normalized = data.map((u) => ({
+    ...u,
+    total_points: getPointsFromUser(u),
+  }));
+  const filteredData = normalized.filter((u) => u.total_points > 0);
 
   const groupsByPoints = filteredData.reduce((acc, u) => {
     acc[u.total_points] = acc[u.total_points] || [];
