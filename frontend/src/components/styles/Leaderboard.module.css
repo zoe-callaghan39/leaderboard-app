@@ -25,7 +25,7 @@
   
     .topThree {
       position: relative;
-      height: 340px; 
+      height: 310px; 
       margin-bottom: 2rem;
     }
   
@@ -42,21 +42,21 @@
     .podiumBlock2 {
       width: 16%;
       left: 22%;
-      height: 170px;
+      height: 130px;
       background: rgba(255, 255, 255, 0.20);
     }
   
     .podiumBlock1 {
       width: 24%;
       left: 38%; 
-      height: 240px; 
+      height: 180px; 
       background: rgba(255, 255, 255, 0.25);
     }
   
     .podiumBlock3 {
       width: 16%;
       left: 62%; 
-      height: 140px;
+      height: 110px;
       background: rgba(255, 255, 255, 0.15);
     }
   
@@ -71,19 +71,19 @@
     }
   
     .pos1 {
-      bottom: 140px;  
+      bottom: 110px;  
       left: 50%;
       transform: translateX(-50%);
     }
   
     .pos2 {
-      bottom: 90px;
+      bottom: 70px;
       left: 30%; 
       transform: translateX(-50%);
     }
   
     .pos3 {
-      bottom: 65px;
+      bottom: 55px;
       left: 70%; 
       transform: translateX(-50%);
     }
@@ -94,7 +94,7 @@
 
     .topUser.pos1.duo .name {
       font-size: 1.75rem;    
-      margin-top: -40px;   
+      margin-top: -60px;   
     }
   
     .name {
@@ -104,7 +104,6 @@
       letter-spacing: 0;
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.8);
-      margin-top: 0.5rem;
     }
   
     .avatarWrapper {
@@ -133,7 +132,7 @@
       left: 50%;
       transform: translateX(-50%);
       overflow: visible;
-      bottom: 140px;
+      bottom: 110px;
     }
     
     .topUser.pos1.duo .avatarWrapper {
@@ -143,13 +142,12 @@
     }
     
     .topUser.pos1.duo .avatarWrapper img.smallAvatar {
-      height: 240px;
-      width: 200px;
+      height: 250px;
       position: static; 
     }
 
     .topUser.pos1.duo .avatarWrapper img.smallAvatar + img.smallAvatar {
-      margin-left: -90px;           
+      margin-left: -75px;           
     }
   
     .pos2 .avatarWrapper img:not(.smallAvatar) {
@@ -344,6 +342,7 @@
       bottom: 100px;
       left: 50%;
       transform: translateX(-50%);
+      gap: 1rem;
     }
   
     .pos2 {
