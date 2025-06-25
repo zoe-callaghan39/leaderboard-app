@@ -10,9 +10,9 @@ The client is a React 18 single‑page application rendered with React Router.
 
 ## Running locally
 
-After cloning the repository install all dependencies with npm install. The root package.json defines scripts for the back‑end only, so to launch the API simply run npm run dev (which fires up nodemon against index.js) or npm start to run the server without hot‑reload. You should see 🚀 Server ready at http://localhost:4000 in your terminal.
+After cloning the repository install all dependencies with `npm install`. The root package.json defines scripts for the back‑end only, so to launch the API simply run `npm run dev` (which fires up nodemon against index.js) or `npm start` to run the server without hot‑reload. You should see 🚀 Server ready at http://localhost:4000 in your terminal.
 
-The React client lives in the frontend folder. Open a second terminal, cd into frontend, and run npm install && npm start. The development server will launch on http://localhost:3000; its proxy configuration pipes API requests to port 4000 so you can explore the full stack locally without wrestling with CORS.
+The React client lives in the frontend folder. Open a second terminal, cd into frontend, and run `npm install` && `npm start`. The development server will launch on http://localhost:3000; its proxy configuration pipes API requests to port 4000 so you can explore the full stack locally without wrestling with CORS.
 
 If you prefer to inspect the database you can connect to the same connection string used by the server (available as DATABASE_URL in your environment). Render’s dashboard also offers a convenient SQL shell and snapshot tools.
 
